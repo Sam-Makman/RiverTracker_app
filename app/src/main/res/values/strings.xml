@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">RiverTracker</string>
+    <string name="river_detail_alerts_string">alertString</string>
+    <string name="river_detail_section_string">riverSectionString</string>
+    <string name="river_detail_difficulty_string">riverDifficultyString</string>
+    <string name="river_detail_state_string">stateString</string>
+    <string name="river_detail_flow_string">riverFlowString</string>
+    <string name="river_detail_description_string">riverDescriptionString</string>
+
 </resources>

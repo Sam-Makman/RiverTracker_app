@@ -1,8 +1,9 @@
-package com.makman.rivertracker;
+package com.makman.rivertracker.NetworkTasks;
 
 import android.os.AsyncTask;
 
 import com.google.gson.Gson;
+import com.makman.rivertracker.River;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,13 +14,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-/**
- * Created by sam on 3/21/16.
- */
+
 public class MultiRiverNetworkTask extends AsyncTask<String , Boolean, ArrayList<River>> {
 
-    interface MultiRiverNetworkTaskListener{
-        public void PostExecute(ArrayList<River> rivers);
+    public interface MultiRiverNetworkTaskListener{
+         void PostExecute(ArrayList<River> rivers);
     }
 
     MultiRiverNetworkTaskListener mListener;

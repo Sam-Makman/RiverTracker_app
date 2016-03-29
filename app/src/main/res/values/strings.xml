@@ -7,4 +7,21 @@
     <string name="river_detail_flow_string">riverFlowString</string>
     <string name="river_detail_description_string">riverDescriptionString</string>
     <string name="cfs">%s cfs</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="search_river_name">River Name</string>
+    <string name="search_search">Search</string>
+    <string name="search_section">River Section</string>
+    <string name="river_difficulty">River Difficulty</string>
+    <string name="search_title">Search For Rivers</string>
+    <string name="cannot_connect">Cannot Load Rivers</string>
+    <string name="search_rivers">Search Rivers</string>
+    <string-array name="difficulty_ratings">
+        <item>I</item>
+        <item>II</item>
+        <item>III</item>
+        <item>IV</item>
+        <item>V</item>
+    </string-array>
 </resources>

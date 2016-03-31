@@ -17,6 +17,12 @@
     <string name="search_title">Search For Rivers</string>
     <string name="cannot_connect">Cannot Load Rivers</string>
     <string name="search_rivers">Search Rivers</string>
+    <string name="signup_edit_email">Enter Email</string>
+    <string name="signup_edit_password">enter password</string>
+    <string name="signup_edit_repassword">re-enter password</string>
+    <string name="signup_text_signup">Sign Up</string>
+    <string name="signup_have_account">Have Account? Login</string>
+    <string name="signup_no_account">Continue Without Account</string>
     <string-array name="difficulty_ratings">
         <item>I</item>
         <item>II</item>

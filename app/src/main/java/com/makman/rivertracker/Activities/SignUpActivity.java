@@ -45,7 +45,8 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.signup_button_have_account) void login(){
-
+        Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+        startActivity(intent);
     }
 
     @OnClick(R.id.signup_button_no_account) void tryItOut(){

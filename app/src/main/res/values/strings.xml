@@ -23,6 +23,9 @@
     <string name="signup_text_signup">Sign Up</string>
     <string name="signup_have_account">Have Account? Login</string>
     <string name="signup_no_account">Continue Without Account</string>
+    <string name="login_login">Login</string>
+    <string name="login_enter_email">Enter Email</string>
+    <string name="login_enter_pass">Enter Password</string>
     <string-array name="difficulty_ratings">
         <item>I</item>
         <item>II</item>

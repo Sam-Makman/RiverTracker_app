@@ -71,6 +71,7 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkTask
             mEditor.apply();
             Intent intent = new Intent(LoginActivity.this, FavoritesActivity.class);
             startActivity(intent);
+            finish();
         }
     }
 }

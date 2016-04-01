@@ -1,6 +1,7 @@
 package com.makman.rivertracker.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import com.makman.rivertracker.NetworkTasks.MultiRiverNetworkTask;
 import com.makman.rivertracker.R;
 import com.makman.rivertracker.River;
+import com.makman.rivertracker.RiverDetailViewActivity;
 import com.makman.rivertracker.RiverRecyclerViewAdapter;
 
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ public class RiversFragment extends Fragment implements RiverRecyclerViewAdapter
 
 
     public static final String ARG_RIVERS = "arg_rivers";
+    public static final String ARG_RIVER="arg_river";
     private static final String TAG = RiversFragment.class.getSimpleName();
 
     public ArrayList<River> mRivers;
@@ -81,6 +84,9 @@ public class RiversFragment extends Fragment implements RiverRecyclerViewAdapter
     @Override
     public void onRiverRowClicked(River river) {
         Toast.makeText(getContext(), "REPLACE THIS WITH ACTIVITY CHANGE", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getContext(), RiverDetailViewActivity.class);
+        intent.putExtra(ARG_RIVER, river);
+        startActivity(intent);
     }
 
 

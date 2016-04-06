@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -21,6 +22,8 @@ import butterknife.OnClick;
 public class LoginActivity extends AppCompatActivity implements LoginNetworkTask.LoginListener {
 
     public static final String TOKEN = "token";
+    public static final String PREFERENCES = "TOKEN_PREFERENCES";
+
     private static final String TAG = LoginActivity.class.getSimpleName();
 
     @Bind(R.id.login_button_login)
@@ -40,8 +43,9 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkTask
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        mPreference = getSharedPreferences("TOKEN",Context.MODE_PRIVATE);
+        mPreference = getSharedPreferences(LoginActivity.PREFERENCES,Context.MODE_PRIVATE);
         mEditor = mPreference.edit();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
 
@@ -61,7 +65,6 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkTask
 
     @Override
     public void onLoginComplete(String token) {
-        Log.d(TAG, token);
         if(token == null || token.isEmpty() ){
             Toast.makeText(this, "Login Failed", Toast.LENGTH_SHORT).show();
             mButton.setEnabled(true);
@@ -73,5 +76,25 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkTask
             startActivity(intent);
             finish();
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                Intent intent = new Intent(this, SignUpActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, SignUpActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

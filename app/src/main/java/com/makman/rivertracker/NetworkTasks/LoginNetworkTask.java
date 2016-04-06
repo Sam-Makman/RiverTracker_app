@@ -68,6 +68,7 @@ public class LoginNetworkTask extends AsyncTask<String, Integer, String > {
 
         } catch (IOException | JSONException e) {
             e.printStackTrace();
+            token = null;
         }
 
         return token;

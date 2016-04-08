@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.makman.rivertracker.FavoritesActivity;
 import com.makman.rivertracker.R;
@@ -41,7 +42,17 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.signup_button_signup) void signup(){
-        
+        String[] userInfo = new String[3];
+        userInfo[0] = mEmail.getText().toString();
+        userInfo[1] = mPassword.getText().toString();
+        userInfo[2] = mConfirm.getText().toString();
+
+        if(!userInfo[1].equals(userInfo[2])){
+            Toast.makeText(this, "Try again dumbass", Toast.LENGTH_SHORT).show();
+        }else{
+            //call an async task
+            //post to receive an API token
+        }
     }
 
     @OnClick(R.id.signup_button_have_account) void login(){

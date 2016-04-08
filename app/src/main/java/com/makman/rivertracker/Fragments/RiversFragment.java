@@ -97,5 +97,4 @@ public class RiversFragment extends Fragment implements RiverRecyclerViewAdapter
         startActivity(intent);
     }
 
-
 }

@@ -26,6 +26,7 @@
     <string name="login_login">Login</string>
     <string name="login_enter_email">Enter Email</string>
     <string name="login_enter_pass">Enter Password</string>
+    <string name="favorite_button">Favorite</string>
     <string name="token_logout_error">Error. Sign in again</string>
     <string name="search">Search</string>
     <string name="logout">Logout</string>

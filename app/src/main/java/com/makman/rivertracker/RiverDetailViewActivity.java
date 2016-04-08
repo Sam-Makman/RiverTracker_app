@@ -1,11 +1,9 @@
 package com.makman.rivertracker;
 
-import android.media.Image;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.nfc.Tag;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,32 +12,43 @@ import android.widget.Toast;
 import com.makman.rivertracker.Fragments.RiversFragment;
 import com.makman.rivertracker.NetworkTasks.RiverDetailNetworkTask;
 
-import org.w3c.dom.Text;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class RiverDetailViewActivity extends AppCompatActivity implements RiverDetailNetworkTask.RiverDetailNetworkTaskListener {
     private static final String TAG = RiverDetailViewActivity.class.getSimpleName();
-    private TextView mAlertsTextview;
-    private ImageView mRiverImage;
-    private TextView mRiverSection;
-    private TextView mDifficulty;
-    private TextView mState;
-    private TextView mFlowrate;
-    private TextView mRiverDescription;
+    @Bind(R.id.river_details_alerts_textview)
+    TextView mAlertsTextview;
+    @Bind(R.id.river_details_image_view)
+    ImageView mRiverImage;
+    @Bind(R.id.river_details_section_textview)
+    TextView mRiverSection;
+    @Bind(R.id.river_details_difficulty_textview)
+    TextView mDifficulty;
+    @Bind(R.id.river_details_state_textview)
+    TextView mState;
+    @Bind(R.id.river_details_flowrate_textview)
+    TextView mFlowrate;
+    @Bind(R.id.river_details_description_textview)
+    TextView mRiverDescription;
+
+
+    @OnClick(R.id.river_details_favorite_button) void OnClick(){
+        //call an async task
+        //send api token and river id
+    }
+
+
     private RiverDetailNetworkTask mNetworkTask;
     private River river;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_river_detail_view);
-        mAlertsTextview = (TextView) findViewById(R.id.river_details_alerts_textview);
-        mRiverImage = (ImageView) findViewById(R.id.river_details_image_view);
-        mRiverSection = (TextView) findViewById(R.id.river_details_section_textview);
-        mDifficulty = (TextView) findViewById(R.id.river_details_difficulty_textview);
-        mState = (TextView) findViewById(R.id.river_details_state_textview);
-        mFlowrate = (TextView) findViewById(R.id.river_details_flowrate_textview);
-        mRiverDescription = (TextView) findViewById(R.id.river_details_description_textview);
-
+        ButterKnife.bind(this);
         river = getIntent().getExtras().getParcelable(RiversFragment.ARG_RIVER);
         if(river!=null){
             ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
@@ -59,6 +68,9 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
     @Override
     public void PostExecute(River river) {
         Log.d(TAG, "post execute");
+        if(river==null){
+            return;
+        }
         if(river.getSection()!=null) {
             mRiverSection.setText(river.getSection());
         }

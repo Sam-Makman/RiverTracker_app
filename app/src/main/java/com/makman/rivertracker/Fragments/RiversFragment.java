@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.makman.rivertracker.FavoritesActivity;
 import com.makman.rivertracker.NetworkTasks.MultiRiverNetworkTask;
 import com.makman.rivertracker.R;
 import com.makman.rivertracker.River;
@@ -30,6 +31,7 @@ public class RiversFragment extends Fragment implements RiverRecyclerViewAdapter
     public static final String ARG_RIVERS = "arg_rivers";
     public static final String ARG_RIVER="arg_river";
     private static final String TAG = RiversFragment.class.getSimpleName();
+    private static final String ARG_TITLE = "arg_title";
 
     public ArrayList<River> mRivers;
 
@@ -38,7 +40,7 @@ public class RiversFragment extends Fragment implements RiverRecyclerViewAdapter
     MultiRiverNetworkTask mTask;
 
 
-    public static RiversFragment newInstance(ArrayList<River> rivers) {
+    public static RiversFragment newInstance(ArrayList<River> rivers, String title) {
 
         RiversFragment fragment = new RiversFragment();
         Bundle args = new Bundle();
@@ -49,6 +51,7 @@ public class RiversFragment extends Fragment implements RiverRecyclerViewAdapter
             riverArray[i] = rivers.get(i);
         }
         args.putParcelableArray(ARG_RIVERS, riverArray);
+        args.putString(ARG_TITLE, title);
         fragment.setArguments(args);
         return fragment;
     }
@@ -69,6 +72,11 @@ public class RiversFragment extends Fragment implements RiverRecyclerViewAdapter
             River[] rivers = (River[]) getArguments().getParcelableArray(ARG_RIVERS);
             if(rivers != null) {
                 mRivers = new ArrayList<>(Arrays.asList(rivers));
+            }
+            String title = getArguments().getString(ARG_TITLE, "");
+
+            if(!title.equals("")){
+                ((FavoritesActivity) getActivity()).setTitle(title);
             }
         }
 

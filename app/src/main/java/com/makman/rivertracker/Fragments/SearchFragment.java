@@ -1,11 +1,11 @@
 package com.makman.rivertracker.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.makman.rivertracker.Activities.LoginActivity;
 import com.makman.rivertracker.FavoritesActivity;
 import com.makman.rivertracker.NetworkTasks.MultiRiverNetworkTask;
 import com.makman.rivertracker.R;
@@ -53,7 +54,7 @@ public class SearchFragment extends Fragment implements OnClickListener, MultiRi
         mNameEdit = (EditText) rootView.findViewById(R.id.search_edit_river_name);
         mSectionEdit = (EditText) rootView.findViewById(R.id.search_edit_river_section);
 
-
+        ((FavoritesActivity) getActivity()).setTitle("Search For Rivers");
 
         mSpinner = (Spinner) rootView.findViewById(R.id.search_spinner_difficulty);
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(getContext(),
@@ -67,13 +68,14 @@ public class SearchFragment extends Fragment implements OnClickListener, MultiRi
 
     @Override
     public void onClick(View v) {
-        Toast.makeText(getContext(), "Button Pressed",Toast.LENGTH_SHORT).show();
         MultiRiverNetworkTask task;
         String url = FavoritesActivity.RIVER_URL;
         url = url + "?";
         url += "name=" + mNameEdit.getText().toString() + "&";
+        if(!mSpinner.getSelectedItem().toString().equals("None")){
+            url += "difficulty=" + mSpinner.getSelectedItem().toString()+"&";
+        }
         url += "section=" + mSectionEdit.getText().toString() + "&";
-        url += "difficulty=" + mSpinner.getSelectedItem().toString()+"&";
         url += "commit=Search";
         Log.d(TAG, url);
         ConnectivityManager manager = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -82,16 +84,24 @@ public class SearchFragment extends Fragment implements OnClickListener, MultiRi
             Toast.makeText(getContext(), R.string.cannot_connect, Toast.LENGTH_SHORT).show();
         }else {
             task = new MultiRiverNetworkTask(this);
-            task.execute(url);
+            task.execute(url, getString(R.string.search_results));
         }
     }
 
     @Override
-    public void PostExecute(ArrayList<River> rivers) {
-        android.support.v4.app.FragmentTransaction transaction =getActivity().getSupportFragmentManager().beginTransaction();
-        RiversFragment riversFragment = RiversFragment.newInstance(rivers);
-        transaction.replace(R.id.activity_favorite_frame_layout, riversFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+    public void PostExecute(ArrayList<River> rivers, boolean invalidToken, String title) {
+        if(invalidToken){
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            startActivity(intent);
+            getActivity().finish();
+
+        }else if(rivers == null || rivers.isEmpty()){
+            Toast.makeText(getContext(), R.string.cannot_connect, Toast.LENGTH_SHORT).show();
+        }else {
+            android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            RiversFragment riversFragment = RiversFragment.newInstance(rivers, title);
+            transaction.replace(R.id.activity_favorite_frame_layout, riversFragment);
+            transaction.commit();
+        }
     }
 }

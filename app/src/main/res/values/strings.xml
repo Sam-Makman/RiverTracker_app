@@ -8,7 +8,7 @@
     <string name="river_detail_description_string">riverDescriptionString</string>
     <string name="cfs">%s cfs</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search_river_name">River Name</string>
     <string name="search_search">Search</string>
@@ -27,7 +27,16 @@
     <string name="login_enter_email">Enter Email</string>
     <string name="login_enter_pass">Enter Password</string>
     <string name="favorite_button">Favorite</string>
+    <string name="token_logout_error">Error. Sign in again</string>
+    <string name="search">Search</string>
+    <string name="logout">Logout</string>
+    <string name="menu_item_river_list">River List</string>
+    <string name="all_rivers">All Rivers</string>
+    <string name="favorites">Favorites</string>
+    <string name="all_rivers2">All Rivers</string>
+    <string name="search_results">Search Results</string>
     <string-array name="difficulty_ratings">
+        <item>None</item>
         <item>I</item>
         <item>II</item>
         <item>III</item>

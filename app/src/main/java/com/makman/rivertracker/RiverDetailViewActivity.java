@@ -1,13 +1,10 @@
 package com.makman.rivertracker;
 
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.makman.rivertracker.Fragments.RiversFragment;
 import com.makman.rivertracker.NetworkTasks.RiverDetailNetworkTask;
@@ -49,20 +46,8 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_river_detail_view);
         ButterKnife.bind(this);
-        river = getIntent().getExtras().getParcelable(RiversFragment.ARG_RIVER);
-        if(river!=null){
-            ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-
-            if(networkInfo==null || !networkInfo.isConnected()){
-                Toast.makeText(this, "can't load details", Toast.LENGTH_SHORT).show();
-            }else{
-                String riverId = river.getId();
-                mNetworkTask = new RiverDetailNetworkTask(this);
-                mNetworkTask.execute(riverId);
-            }
-        }
-
+        river = getIntent().getParcelableExtra(RiversFragment.ARG_RIVER);
+        PostExecute(river);
     }
 
     @Override

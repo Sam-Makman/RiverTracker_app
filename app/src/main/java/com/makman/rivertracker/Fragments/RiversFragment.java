@@ -1,14 +1,13 @@
 package com.makman.rivertracker.Fragments;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +15,7 @@ import android.widget.Toast;
 
 import com.makman.rivertracker.FavoritesActivity;
 import com.makman.rivertracker.NetworkTasks.MultiRiverNetworkTask;
+import com.makman.rivertracker.NetworkTasks.RiverDetailNetworkTask;
 import com.makman.rivertracker.R;
 import com.makman.rivertracker.River;
 import com.makman.rivertracker.RiverDetailViewActivity;
@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 
-public class RiversFragment extends Fragment implements RiverRecyclerViewAdapter.OnRiverRowClickListener {
+public class RiversFragment extends Fragment implements RiverRecyclerViewAdapter.OnRiverRowClickListener, RiverDetailNetworkTask.RiverDetailNetworkTaskListener {
 
 
     public static final String ARG_RIVERS = "arg_rivers";
@@ -38,6 +38,7 @@ public class RiversFragment extends Fragment implements RiverRecyclerViewAdapter
     RecyclerView mRecyclerView;
     RiverRecyclerViewAdapter mAdapter;
     MultiRiverNetworkTask mTask;
+    RiverDetailNetworkTask mDetailTask;
 
 
     public static RiversFragment newInstance(ArrayList<River> rivers, String title) {
@@ -91,10 +92,25 @@ public class RiversFragment extends Fragment implements RiverRecyclerViewAdapter
 
     @Override
     public void onRiverRowClicked(River river) {
-        Toast.makeText(getContext(), "REPLACE THIS WITH ACTIVITY CHANGE", Toast.LENGTH_SHORT).show();
+        if(river!=null){
+            ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(getActivity().CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+            if(networkInfo==null || !networkInfo.isConnected()){
+                Toast.makeText(getActivity(), "can't load details", Toast.LENGTH_SHORT).show();
+            }else{
+                String riverId = river.getId();
+                mDetailTask = new RiverDetailNetworkTask(this);
+                mDetailTask.execute(riverId);
+            }
+        }
+
+    }
+
+    @Override
+    public void PostExecute(River river) {
         Intent intent = new Intent(getContext(), RiverDetailViewActivity.class);
         intent.putExtra(ARG_RIVER, river);
         startActivity(intent);
     }
-
 }

@@ -45,10 +45,18 @@ public class RiverRecyclerViewAdapter extends RecyclerView.Adapter<RiverRecycler
         holder.state.setText(river.getState());
         holder.section.setText(river.getSection());
         String url = river.getPicture().getPicture().getUrl();
+        if(!river.isHas_alert()){
+            holder.alertUpper.setVisibility(View.GONE);
+            holder.alertLower.setVisibility(View.GONE);
+
+        }
         if(url != null) {
+            holder.alertLower.setVisibility(View.GONE);
             Picasso.with(holder.name.getContext()).load(url).fit().centerCrop().into(holder.image);
         }else{
             holder.image.setVisibility(View.GONE);
+            holder.alertUpper.setVisibility(View.GONE);
+
         }
         String cfs;
         if(river.getCfs() == null){
@@ -76,7 +84,7 @@ public class RiverRecyclerViewAdapter extends RecyclerView.Adapter<RiverRecycler
 
     static class RiverViewHolder extends RecyclerView.ViewHolder{
         TextView name, section, cfs, difficulty, state;
-        ImageView image;
+        ImageView image, alertUpper, alertLower;
         View fullView;
         public RiverViewHolder(View itemView) {
             super(itemView);
@@ -87,6 +95,8 @@ public class RiverRecyclerViewAdapter extends RecyclerView.Adapter<RiverRecycler
             difficulty = (TextView) itemView.findViewById(R.id.row_river_difficulty);
             state = (TextView) itemView.findViewById(R.id.row_river_state);
             image = (ImageView) itemView.findViewById(R.id.row_river_image);
+            alertUpper = (ImageView) itemView.findViewById(R.id.row_river_alert_icon_upper);
+            alertLower = (ImageView) itemView.findViewById(R.id.row_river_alert_icon_lower);
         }
     }
 }

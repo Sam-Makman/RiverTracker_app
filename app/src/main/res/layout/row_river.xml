@@ -14,6 +14,15 @@
             android:id="@+id/row_river_image"
             android:layout_width="match_parent"
             android:layout_height="100dp"/>
+        <ImageView
+            android:id="@+id/row_river_alert_icon_upper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@id/row_river_image"
+            android:layout_alignRight="@id/row_river_image"
+            android:layout_alignBottom="@id/row_river_image"
+            android:background="@android:drawable/stat_sys_warning"
+            android:backgroundTint="#ffa812"/>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,6 +37,15 @@
             tools:text="White Salmon"
             android:textAlignment="center"
             />
+            <ImageView
+                android:id="@+id/row_river_alert_icon_lower"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignBottom="@id/row_river_name"
+                android:background="@android:drawable/stat_sys_warning"
+                android:backgroundTint="#ffa812" />
         <TextView
             android:id="@+id/row_river_section"
             android:layout_width="wrap_content"

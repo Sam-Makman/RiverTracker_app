@@ -11,6 +11,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.makman.rivertracker.FavoritesActivity;
@@ -39,7 +40,7 @@ public class RiversFragment extends Fragment implements RiverRecyclerViewAdapter
     RiverRecyclerViewAdapter mAdapter;
     MultiRiverNetworkTask mTask;
     RiverDetailNetworkTask mDetailTask;
-
+    TextView mNoResults;
 
     public static RiversFragment newInstance(ArrayList<River> rivers, String title) {
 
@@ -68,11 +69,20 @@ public class RiversFragment extends Fragment implements RiverRecyclerViewAdapter
                              Bundle savedInstanceState) {
 
         View rootView =  inflater.inflate(R.layout.fragment_rivers, container, false);
-
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.fragment_river_recycler_view);
+        mNoResults = (TextView) rootView.findViewById(R.id.fragment_river_no_results);
         if (getArguments() != null) {
             River[] rivers = (River[]) getArguments().getParcelableArray(ARG_RIVERS);
-            if(rivers != null) {
+            if(rivers != null && rivers.length > 0) {
                 mRivers = new ArrayList<>(Arrays.asList(rivers));
+                mNoResults.setVisibility(View.GONE);
+                mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+                mAdapter = new RiverRecyclerViewAdapter(mRivers, this);
+                mRecyclerView.setAdapter(mAdapter);
+                mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
+            }else{
+                mRecyclerView.setVisibility(View.GONE);
             }
             String title = getArguments().getString(ARG_TITLE, "");
 
@@ -81,11 +91,7 @@ public class RiversFragment extends Fragment implements RiverRecyclerViewAdapter
             }
         }
 
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.fragment_river_recycler_view);
-        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        mAdapter = new RiverRecyclerViewAdapter(mRivers, this);
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
 
         return rootView;
     }

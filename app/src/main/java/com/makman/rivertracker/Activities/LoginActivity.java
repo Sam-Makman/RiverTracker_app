@@ -32,6 +32,9 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkTask
     @Bind(R.id.login_button_login)
     Button mButton;
 
+    @Bind(R.id.login_button_signup)
+    Button mSignup;
+
     @Bind(R.id.login_edit_text_email)
     EditText mEmail;
 
@@ -53,8 +56,6 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkTask
         mEditor = mPreference.edit();
         ActionBar bar = getSupportActionBar();
         bar.hide();
-//        bar.setDisplayHomeAsUpEnabled(true);
-//        bar.setTitle(getString(R.string.login_login));
         Picasso.with(this).load(LOGIN_IMAGE_URL).fit().centerCrop().into(image);
 
     }
@@ -71,6 +72,12 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkTask
             mTask.execute();
             mButton.setEnabled(false);
         }
+    }
+    @OnClick(R.id.login_button_signup)
+    void signup(){
+        Intent intent = new Intent(this, SignUpActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override

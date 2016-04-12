@@ -34,10 +34,6 @@ public class SearchFragment extends Fragment implements OnClickListener, MultiRi
     public EditText mNameEdit;
     public EditText mSectionEdit;
 
-    public static SearchFragment newInstance() {
-        return new SearchFragment();
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,7 +91,7 @@ public class SearchFragment extends Fragment implements OnClickListener, MultiRi
             startActivity(intent);
             getActivity().finish();
 
-        }else if(rivers == null || rivers.isEmpty()){
+        }else if(rivers == null){
             Toast.makeText(getContext(), R.string.cannot_connect, Toast.LENGTH_SHORT).show();
         }else {
             android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();

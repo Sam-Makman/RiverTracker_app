@@ -1,7 +1,13 @@
 package com.makman.rivertracker;
 
+import android.graphics.Camera;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -10,15 +16,35 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.makman.rivertracker.Fragments.RiversFragment;
 
 import java.util.ArrayList;
 
-public class RiverMapsActivity extends FragmentActivity implements OnMapReadyCallback {
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class RiverMapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener {
 
     private GoogleMap mMap;
     private ArrayList<River> mRivers;
+
+    @Bind(R.id.maps_river_detail_bar)
+    RelativeLayout mDetailBar;
+
+    @Bind(R.id.maps_river_cfs)
+    TextView mCfs;
+
+    @Bind(R.id.maps_river_difficulty)
+    TextView mDifficulty;
+
+    @Bind(R.id.maps_river_state)
+    TextView mState;
+
+    @Bind(R.id.maps_river_direction_button)
+    Button mDirectionButotn;
 
 
     @Override
@@ -29,6 +55,8 @@ public class RiverMapsActivity extends FragmentActivity implements OnMapReadyCal
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mRivers = getIntent().getParcelableArrayListExtra(RiversFragment.ARG_RIVERS);
+        ButterKnife.bind(this);
+        mDetailBar.setVisibility(View.GONE);
         mapFragment.getMapAsync(this);
     }
 
@@ -45,6 +73,8 @@ public class RiverMapsActivity extends FragmentActivity implements OnMapReadyCal
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.setOnMarkerClickListener(this);
+        mMap.setOnMapClickListener(this);
         boolean search = true;
         double minLat, minLong, maxLat, maxLong;
         if(mRivers != null && mRivers.size() > 0) {
@@ -91,4 +121,43 @@ public class RiverMapsActivity extends FragmentActivity implements OnMapReadyCal
             }
         }
     }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        marker.showInfoWindow();
+        mMap.animateCamera(CameraUpdateFactory.newLatLng(marker.getPosition()));
+        mDetailBar.setVisibility(View.VISIBLE);
+        River river = null;
+        for( River r : mRivers){
+            if(r.getName().equals(marker.getTitle()) && r.getSection().equals(marker.getSnippet())){
+                river = r;
+            }
+        }
+        if(river == null){
+            return false;
+        }
+        mDifficulty.setText(river.getDifficulty());
+        mState.setText(river.getState());
+        String cfs;
+        if(river.getCfs() == null){
+            cfs = "";
+        }else {
+            cfs = String.format(getString(R.string.cfs), river.getCfs());
+        }
+        mCfs.setText(cfs);
+
+        return true;
+    }
+
+    @OnClick (R.id.maps_river_direction_button)
+    void click(){
+        Toast.makeText(this, "Open in google maps", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+        mDetailBar.setVisibility(View.GONE);
+    }
 }
+
+

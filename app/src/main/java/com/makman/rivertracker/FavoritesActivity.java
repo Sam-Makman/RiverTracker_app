@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 public class FavoritesActivity extends AppCompatActivity implements MultiRiverNetworkTask.MultiRiverNetworkTaskListener{
 
+    public static final String ARG_RIVERS = "ARG_RIVER";
     public static final String RIVER_URL = "https://radiant-temple-90497.herokuapp.com/api/rivers";
     public static final String FAVORITE_URL = "https://radiant-temple-90497.herokuapp.com/api/favorites?token=";
     private static final String TAG = FavoritesActivity.class.getSimpleName();
@@ -78,8 +79,8 @@ public class FavoritesActivity extends AppCompatActivity implements MultiRiverNe
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.add(Menu.NONE, 0, Menu.NONE, R.string.search);
-        menu.add(Menu.NONE, 1, Menu.NONE, R.string.logout);
-        menu.add(Menu.NONE, 2, Menu.NONE, R.string.menu_item_river_list);
+        menu.add(Menu.NONE, 1, Menu.NONE, R.string.menu_item_river_list);
+        menu.add(Menu.NONE, 2, Menu.NONE, R.string.logout);
         return true;
     }
 
@@ -93,11 +94,11 @@ public class FavoritesActivity extends AppCompatActivity implements MultiRiverNe
                 transaction.commit();
                 return true;
             case 1:
-                logout();
-                finish();
+                getRivers(RIVER_URL,getString(R.string.all_rivers2));
                 return true;
             case 2:
-                getRivers(RIVER_URL,getString(R.string.all_rivers2));
+                logout();
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

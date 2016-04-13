@@ -61,14 +61,14 @@ public class MultiRiverNetworkTask extends AsyncTask<String , Boolean, ArrayList
                     return null;
                 }
             }
-//            JSONObject json = new JSONObject(responseBuilder.toString());
             rivers = new ArrayList<>();
-            if(responseBuilder.toString().contains("error")){
+            if(responseBuilder.toString().contains("User is Unauthorized")){
                 River river = new River();
                 river.setId("-1");
                 rivers.add(river);
                 Log.d(TAG, "JSON ERROR");
                 Log.d(TAG, responseBuilder.toString());
+                return null;
             }else {
                 River[] riverArray = new Gson().fromJson(responseBuilder.toString(), River[].class);
                 rivers.addAll(Arrays.asList(riverArray));
@@ -87,8 +87,9 @@ public class MultiRiverNetworkTask extends AsyncTask<String , Boolean, ArrayList
         super.onPostExecute(rivers);
         if(rivers == null){
             mListener.PostExecute(null, true, mTitle);
-        }
-        else if(rivers.get(0).getId().equals("-1")){
+        }else if(rivers.size() == 0){
+            mListener.PostExecute(rivers, false, mTitle);
+        }else if(rivers.get(0).getId().equals("-1")){
             mListener.PostExecute(null, false, mTitle);
         }else {
             mListener.PostExecute(rivers, false, mTitle);

@@ -5,7 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -41,6 +44,20 @@ public class RiverRecyclerViewAdapter extends RecyclerView.Adapter<RiverRecycler
         holder.difficulty.setText(river.getDifficulty());
         holder.state.setText(river.getState());
         holder.section.setText(river.getSection());
+        String url = river.getPicture().getPicture().getUrl();
+        if(!river.isHas_alert()){
+            holder.alertUpper.setVisibility(View.GONE);
+            holder.alertLower.setVisibility(View.GONE);
+
+        }
+        if(url != null) {
+            holder.alertLower.setVisibility(View.GONE);
+            Picasso.with(holder.name.getContext()).load(url).fit().centerCrop().into(holder.image);
+        }else{
+            holder.image.setVisibility(View.GONE);
+            holder.alertUpper.setVisibility(View.GONE);
+
+        }
         String cfs;
         if(river.getCfs() == null){
             cfs = "";
@@ -67,6 +84,7 @@ public class RiverRecyclerViewAdapter extends RecyclerView.Adapter<RiverRecycler
 
     static class RiverViewHolder extends RecyclerView.ViewHolder{
         TextView name, section, cfs, difficulty, state;
+        ImageView image, alertUpper, alertLower;
         View fullView;
         public RiverViewHolder(View itemView) {
             super(itemView);
@@ -76,6 +94,9 @@ public class RiverRecyclerViewAdapter extends RecyclerView.Adapter<RiverRecycler
             cfs = (TextView) itemView.findViewById(R.id.row_river_cfs);
             difficulty = (TextView) itemView.findViewById(R.id.row_river_difficulty);
             state = (TextView) itemView.findViewById(R.id.row_river_state);
+            image = (ImageView) itemView.findViewById(R.id.row_river_image);
+            alertUpper = (ImageView) itemView.findViewById(R.id.row_river_alert_icon_upper);
+            alertLower = (ImageView) itemView.findViewById(R.id.row_river_alert_icon_lower);
         }
     }
 }

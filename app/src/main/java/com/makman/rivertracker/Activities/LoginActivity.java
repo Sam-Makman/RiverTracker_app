@@ -3,17 +3,20 @@ package com.makman.rivertracker.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.makman.rivertracker.FavoritesActivity;
 import com.makman.rivertracker.NetworkTasks.LoginNetworkTask;
 import com.makman.rivertracker.R;
+import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -23,17 +26,23 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkTask
 
     public static final String TOKEN = "token";
     public static final String PREFERENCES = "TOKEN_PREFERENCES";
-
+    public static final String LOGIN_IMAGE_URL = "http://res.cloudinary.com/hgsa3o7eg/image/upload/v1460417369/12711085_961532673896473_5590962366776566471_o_hansxg.jpg";
     private static final String TAG = LoginActivity.class.getSimpleName();
 
     @Bind(R.id.login_button_login)
     Button mButton;
+
+    @Bind(R.id.login_button_signup)
+    Button mSignup;
 
     @Bind(R.id.login_edit_text_email)
     EditText mEmail;
 
     @Bind(R.id.login_edit_text_password)
     EditText mPassword;
+
+    @Bind(R.id.login_image_view)
+    ImageView image;
 
     LoginNetworkTask mTask;
     SharedPreferences mPreference;
@@ -45,7 +54,9 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkTask
         ButterKnife.bind(this);
         mPreference = getSharedPreferences(LoginActivity.PREFERENCES,Context.MODE_PRIVATE);
         mEditor = mPreference.edit();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar bar = getSupportActionBar();
+        bar.hide();
+        Picasso.with(this).load(LOGIN_IMAGE_URL).fit().centerCrop().into(image);
 
     }
 
@@ -61,6 +72,12 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkTask
             mTask.execute();
             mButton.setEnabled(false);
         }
+    }
+    @OnClick(R.id.login_button_signup)
+    void signup(){
+        Intent intent = new Intent(this, SignUpActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.makman.rivertracker;
 
+import android.content.Intent;
 import android.graphics.Camera;
+import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -21,6 +23,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.makman.rivertracker.Fragments.RiversFragment;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -30,7 +33,7 @@ public class RiverMapsActivity extends FragmentActivity implements OnMapReadyCal
 
     private GoogleMap mMap;
     private ArrayList<River> mRivers;
-
+    private River mCurRiver;
     @Bind(R.id.maps_river_detail_bar)
     RelativeLayout mDetailBar;
 
@@ -136,6 +139,7 @@ public class RiverMapsActivity extends FragmentActivity implements OnMapReadyCal
         if(river == null){
             return false;
         }
+        mCurRiver = river;
         mDifficulty.setText(river.getDifficulty());
         mState.setText(river.getState());
         String cfs;
@@ -152,6 +156,15 @@ public class RiverMapsActivity extends FragmentActivity implements OnMapReadyCal
     @OnClick (R.id.maps_river_direction_button)
     void click(){
         Toast.makeText(this, "Open in google maps", Toast.LENGTH_SHORT).show();
+        if(mCurRiver == null){
+            return;
+        }
+        String[] coords = mCurRiver.getPut_in().split(",");
+        double lat = Double.valueOf(coords[0]);
+        double lng = Double.valueOf(coords[1]);
+        String uri = String.format(Locale.ENGLISH, "google.navigation:q=%f,%f",lat,lng );
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+        startActivity(intent);
     }
 
     @Override

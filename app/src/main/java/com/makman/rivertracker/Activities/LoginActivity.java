@@ -3,9 +3,9 @@ package com.makman.rivertracker.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -13,17 +13,25 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.makman.rivertracker.FavoritesActivity;
 import com.makman.rivertracker.NetworkTasks.LoginNetworkTask;
+import com.makman.rivertracker.NetworkTasks.VolleyNetworkTask;
 import com.makman.rivertracker.R;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class LoginActivity extends AppCompatActivity implements LoginNetworkTask.LoginListener {
-
+    public static final String URL = "https://radiant-temple-90497.herokuapp.com/api/login?email=";
     public static final String TOKEN = "token";
     public static final String PREFERENCES = "TOKEN_PREFERENCES";
     public static final String LOGIN_IMAGE_URL = "http://res.cloudinary.com/hgsa3o7eg/image/upload/v1460417369/12711085_961532673896473_5590962366776566471_o_hansxg.jpg";
@@ -63,14 +71,41 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkTask
     @OnClick(R.id.login_button_login) void onClick(){
         String email = mEmail.getText().toString();
         String password = mPassword.getText().toString();
+        String url = URL+ email + "&password=" + password;
+
         if(email.isEmpty()){
             Toast.makeText(this, R.string.login_enter_email, Toast.LENGTH_SHORT).show();
         }else if( password.isEmpty()){
             Toast.makeText(this, R.string.login_enter_pass, Toast.LENGTH_SHORT).show();
         }else{
-            mTask = new LoginNetworkTask(email, password, this);
-            mTask.execute();
-            mButton.setEnabled(false);
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    try {
+                        response = response.getJSONObject("args");
+                        String site = response.getString("site"),
+                                network = response.getString("network");
+                        mEditor.putString(TOKEN, response.getString("token"));
+                        mEditor.apply();
+                        System.out.println("Site: "+site+"\nNetwork: "+network);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    error.printStackTrace();
+                }
+            });
+            VolleyNetworkTask.getInstance().getRequestQueue().add(jsonObjectRequest);
+            Intent intent = new Intent(LoginActivity.this, FavoritesActivity.class);
+            startActivity(intent);
+            finish();
+//            mTask = new LoginNetworkTask(email, password, this);
+//            mTask.execute();
+//            mButton.setEnabled(false);
         }
     }
     @OnClick(R.id.login_button_signup)

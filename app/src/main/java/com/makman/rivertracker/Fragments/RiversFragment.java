@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,13 +22,14 @@ import com.makman.rivertracker.NetworkTasks.RiverDetailNetworkTask;
 import com.makman.rivertracker.R;
 import com.makman.rivertracker.River;
 import com.makman.rivertracker.RiverDetailViewActivity;
+import com.makman.rivertracker.RiverMapsActivity;
 import com.makman.rivertracker.RiverRecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 
-public class RiversFragment extends Fragment implements RiverRecyclerViewAdapter.OnRiverRowClickListener, RiverDetailNetworkTask.RiverDetailNetworkTaskListener {
+public class RiversFragment extends Fragment implements RiverRecyclerViewAdapter.OnRiverRowClickListener, RiverDetailNetworkTask.RiverDetailNetworkTaskListener, View.OnClickListener {
 
 
     public static final String ARG_RIVERS = "arg_rivers";
@@ -38,9 +41,9 @@ public class RiversFragment extends Fragment implements RiverRecyclerViewAdapter
 
     RecyclerView mRecyclerView;
     RiverRecyclerViewAdapter mAdapter;
-    MultiRiverNetworkTask mTask;
     RiverDetailNetworkTask mDetailTask;
     TextView mNoResults;
+    FloatingActionButton fab;
 
     public static RiversFragment newInstance(ArrayList<River> rivers, String title) {
 
@@ -71,6 +74,9 @@ public class RiversFragment extends Fragment implements RiverRecyclerViewAdapter
         View rootView =  inflater.inflate(R.layout.fragment_rivers, container, false);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.fragment_river_recycler_view);
         mNoResults = (TextView) rootView.findViewById(R.id.fragment_river_no_results);
+        fab = (FloatingActionButton) rootView.findViewById(R.id.fragment_river_fab);
+        fab.setOnClickListener(this);
+
         if (getArguments() != null) {
             River[] rivers = (River[]) getArguments().getParcelableArray(ARG_RIVERS);
             if(rivers != null && rivers.length > 0) {
@@ -119,4 +125,12 @@ public class RiversFragment extends Fragment implements RiverRecyclerViewAdapter
         intent.putExtra(ARG_RIVER, river);
         startActivity(intent);
     }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent(getActivity(), RiverMapsActivity.class);
+        Intent arg_river = intent.putParcelableArrayListExtra(ARG_RIVERS, mRivers);
+        startActivity(intent);
+    }
+
 }

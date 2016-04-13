@@ -45,4 +45,7 @@
         <item>IV</item>
         <item>V</item>
     </string-array>
+    <string name="title_activity_river_map">Map</string>
+    <string name="title_activity_river_maps">Map</string>
+    <string name="view_on_map">View on Map</string>
 </resources>

@@ -15,7 +15,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
+        android:layout_centerInParent="true"
         android:textAlignment="center"
+        android:layout_below="@id/river_details_description_textview"
         android:text="@string/river_detail_alerts_string"
         tools:text="ALERT" />
 

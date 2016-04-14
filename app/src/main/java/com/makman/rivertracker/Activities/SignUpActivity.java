@@ -25,10 +25,11 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+
 public class SignUpActivity extends AppCompatActivity implements Response.ErrorListener, Response.Listener<JSONObject> {
     private static final String TAG = SignUpActivity.class.getSimpleName();
     private static final String URL = "https://radiant-temple-90497.herokuapp.com/api/signup";
-    private final String[] userInfo = new String[3];
+    private final String[] userInfo = new String[4];
 
 
     @Bind(R.id.signup_edit_text_email)
@@ -49,9 +50,12 @@ public class SignUpActivity extends AppCompatActivity implements Response.ErrorL
     @Bind(R.id.signup_button_no_account)
     Button mContinue;
 
+    @Bind(R.id.signup_name_edit_text)
+    EditText mName;
+
+
     SharedPreferences mPreference;
     SharedPreferences.Editor mEditor;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,11 +71,13 @@ public class SignUpActivity extends AppCompatActivity implements Response.ErrorL
     }
 
     @OnClick(R.id.signup_button_signup) void signup(){
-        userInfo[0] = mEmail.getText().toString();
-        userInfo[1] = mPassword.getText().toString();
-        userInfo[2] = mConfirm.getText().toString();
+        userInfo[0] = mName.getText().toString();
+        userInfo[1] = mEmail.getText().toString();
+        userInfo[2] = mPassword.getText().toString();
+        userInfo[3] = mConfirm.getText().toString();
 
-        if(!userInfo[1].equals(userInfo[2])) {
+
+        if(!userInfo[2].equals(userInfo[3])){
             Toast.makeText(this, "Mismatched passwords", Toast.LENGTH_SHORT).show();
         }else{
             JSONObject user = new JSONObject();
@@ -105,7 +111,7 @@ public class SignUpActivity extends AppCompatActivity implements Response.ErrorL
 
     @Override
     public void onErrorResponse(VolleyError error) {
-
+        error.printStackTrace();
     }
 
     @Override

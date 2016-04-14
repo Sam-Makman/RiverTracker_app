@@ -1,9 +1,11 @@
 package com.makman.rivertracker.Activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -11,7 +13,7 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.makman.rivertracker.FavoritesActivity;
 import com.makman.rivertracker.NetworkTasks.VolleyNetworkTask;
 import com.makman.rivertracker.R;
@@ -19,17 +21,15 @@ import com.makman.rivertracker.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SignUpActivity extends AppCompatActivity {
 
+public class SignUpActivity extends AppCompatActivity implements Response.ErrorListener, Response.Listener<JSONObject> {
+    private static final String TAG = SignUpActivity.class.getSimpleName();
     private static final String URL = "https://radiant-temple-90497.herokuapp.com/api/signup";
-    private final String[] userInfo = new String[3];
+    private final String[] userInfo = new String[4];
 
 
     @Bind(R.id.signup_edit_text_email)
@@ -50,7 +50,12 @@ public class SignUpActivity extends AppCompatActivity {
     @Bind(R.id.signup_button_no_account)
     Button mContinue;
 
+    @Bind(R.id.signup_name_edit_text)
+    EditText mName;
 
+
+    SharedPreferences mPreference;
+    SharedPreferences.Editor mEditor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,46 +71,28 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.signup_button_signup) void signup(){
-        userInfo[0] = mEmail.getText().toString();
-        userInfo[1] = mPassword.getText().toString();
-        userInfo[2] = mConfirm.getText().toString();
+        userInfo[0] = mName.getText().toString();
+        userInfo[1] = mEmail.getText().toString();
+        userInfo[2] = mPassword.getText().toString();
+        userInfo[3] = mConfirm.getText().toString();
 
-        if(!userInfo[1].equals(userInfo[2])){
+
+        if(!userInfo[2].equals(userInfo[3])){
             Toast.makeText(this, "Mismatched passwords", Toast.LENGTH_SHORT).show();
         }else{
-            StringRequest postRequest = new StringRequest(Request.Method.POST, URL,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            try {
-                                JSONObject jsonResponse = new JSONObject(response).getJSONObject("form");
-                                String site = jsonResponse.getString("site"),
-                                        network = jsonResponse.getString("network");
-                                System.out.println("Site: "+site+"\nNetwork: "+network);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            error.printStackTrace();
-                        }
-                    }
-            ) {
-                @Override
-                protected Map<String, String> getParams()
-                {
-                    Map<String, String>  params = new HashMap<>();
-                    // the POST parameters:
-                    params.put("", userInfo[0]);
-                    params.put("", userInfo[1]);
-                    params.put("", userInfo[2]);
-                    return params;
-                }
-            };
-            VolleyNetworkTask.getInstance().getRequestQueue().add(postRequest);
+            JSONObject user = new JSONObject();
+            JSONObject params = new JSONObject();
+            try {
+                params.put("name", userInfo[0]);
+                params.put("email", userInfo[1]);
+                params.put("password", userInfo[2]);
+                params.put("password_confirm", userInfo[3]);
+                user.put("user", params);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL, user, this, this);
+            VolleyNetworkTask.getInstance().getRequestQueue().add(jsonObjectRequest);
         }
     }
 
@@ -122,4 +109,26 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        error.printStackTrace();
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+        mPreference = getSharedPreferences(LoginActivity.PREFERENCES, Context.MODE_PRIVATE);
+        mEditor = mPreference.edit();
+        //response = response.getJSONObject("args");
+        try {
+            mEditor.putString(LoginActivity.TOKEN, response.getString("token"));
+            Log.d(TAG, response.getString("token"));
+            Log.d(TAG, response.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        mEditor.apply();
+        Intent intent = new Intent(SignUpActivity.this, FavoritesActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }

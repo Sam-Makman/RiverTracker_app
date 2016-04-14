@@ -99,13 +99,13 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkTask
                     error.printStackTrace();
                 }
             });
-            VolleyNetworkTask.getInstance().getRequestQueue().add(jsonObjectRequest);
-            Intent intent = new Intent(LoginActivity.this, FavoritesActivity.class);
-            startActivity(intent);
-            finish();
-//            mTask = new LoginNetworkTask(email, password, this);
-//            mTask.execute();
-//            mButton.setEnabled(false);
+//            VolleyNetworkTask.getInstance().getRequestQueue().add(jsonObjectRequest);
+//            Intent intent = new Intent(LoginActivity.this, FavoritesActivity.class);
+//            startActivity(intent);
+//            finish();
+            mTask = new LoginNetworkTask(email, password, this);
+            mTask.execute();
+            mButton.setEnabled(false);
         }
     }
     @OnClick(R.id.login_button_signup)

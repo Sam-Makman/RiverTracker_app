@@ -1,4 +1,8 @@
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:tool="http://schemas.android.com/tools">
+    <fragment
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/map"
@@ -6,3 +10,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.makman.rivertracker.RiverMapsActivity" />
+    <RelativeLayout
+        android:id="@+id/maps_river_detail_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#FFFFFF">
+    <LinearLayout
+        android:id="@+id/maps_river_detail_linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        >
+        <TextView
+            android:id="@+id/maps_river_difficulty"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            tool:text="IV"/>
+        <TextView
+            android:id="@+id/maps_river_cfs"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            tool:text="1500 cfs"/>
+        <TextView
+            android:id="@+id/maps_river_state"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            tool:text="WA"/>
+
+    </LinearLayout>
+        <Button
+            android:id="@+id/maps_river_direction_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/maps_river_detail_linear_layout"
+            android:text="Get Directions"/>
+    </RelativeLayout>
+</RelativeLayout>

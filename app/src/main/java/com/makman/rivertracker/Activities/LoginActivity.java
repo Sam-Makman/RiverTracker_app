@@ -82,10 +82,16 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkTask
                 @Override
                 public void onResponse(JSONObject response) {
                     try {
+                        mPreference = getSharedPreferences(LoginActivity.PREFERENCES,Context.MODE_PRIVATE);
+                        mEditor = mPreference.edit();
                         //response = response.getJSONObject("args");
                         mEditor.putString(TOKEN, response.getString("token"));
+                        Log.d(TAG, response.getString("token"));
                         Log.d(TAG, response.toString());
                         mEditor.apply();
+                        Intent intent = new Intent(LoginActivity.this, FavoritesActivity.class);
+                        startActivity(intent);
+                        finish();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -98,9 +104,7 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkTask
                 }
             });
             VolleyNetworkTask.getInstance().getRequestQueue().add(jsonObjectRequest);
-            Intent intent = new Intent(LoginActivity.this, FavoritesActivity.class);
-            startActivity(intent);
-            finish();
+
 //            mTask = new LoginNetworkTask(email, password, this);
 //            mTask.execute();
 //            mButton.setEnabled(false);

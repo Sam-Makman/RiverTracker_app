@@ -80,10 +80,6 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkTask
         }else{
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
             VolleyNetworkTask.getInstance().getRequestQueue().add(jsonObjectRequest);
-
-//            mTask = new LoginNetworkTask(email, password, this);
-//            mTask.execute();
-//            mButton.setEnabled(false);
         }
     }
     @OnClick(R.id.login_button_signup)

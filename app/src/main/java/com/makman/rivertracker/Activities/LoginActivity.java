@@ -30,7 +30,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LoginActivity extends AppCompatActivity implements LoginNetworkTask.LoginListener {
+public class LoginActivity extends AppCompatActivity implements LoginNetworkTask.LoginListener, Response.ErrorListener, Response.Listener<JSONObject> {
     public static final String URL = "https://radiant-temple-90497.herokuapp.com/api/login?email=";
     public static final String TOKEN = "token";
     public static final String PREFERENCES = "TOKEN_PREFERENCES";
@@ -78,34 +78,13 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkTask
         }else if( password.isEmpty()){
             Toast.makeText(this, R.string.login_enter_pass, Toast.LENGTH_SHORT).show();
         }else{
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    try {
-                        response = response.getJSONObject("args");
-                        String site = response.getString("site"),
-                                network = response.getString("network");
-                        mEditor.putString(TOKEN, response.getString("token"));
-                        mEditor.apply();
-                        System.out.println("Site: "+site+"\nNetwork: "+network);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }, new Response.ErrorListener() {
 
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    error.printStackTrace();
-                }
-            });
-//            VolleyNetworkTask.getInstance().getRequestQueue().add(jsonObjectRequest);
-//            Intent intent = new Intent(LoginActivity.this, FavoritesActivity.class);
-//            startActivity(intent);
-//            finish();
-            mTask = new LoginNetworkTask(email, password, this);
-            mTask.execute();
-            mButton.setEnabled(false);
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+            VolleyNetworkTask.getInstance().getRequestQueue().add(jsonObjectRequest);
+
+//            mTask = new LoginNetworkTask(email, password, this);
+//            mTask.execute();
+//            mButton.setEnabled(false);
         }
     }
     @OnClick(R.id.login_button_signup)
@@ -146,6 +125,28 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkTask
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, SignUpActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+        mPreference = getSharedPreferences(LoginActivity.PREFERENCES,Context.MODE_PRIVATE);
+        mEditor = mPreference.edit();
+        try {
+            mEditor.putString(TOKEN, response.getString("token"));
+            Log.d(TAG, response.getString("token"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.d(TAG, response.toString());
+        mEditor.apply();
+        Intent intent = new Intent(LoginActivity.this, FavoritesActivity.class);
         startActivity(intent);
         finish();
     }

@@ -8,19 +8,8 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.makman.rivertracker.Fragments.RiversFragment;
 import com.makman.rivertracker.NetworkTasks.RiverDetailNetworkTask;
-import com.makman.rivertracker.NetworkTasks.VolleyNetworkTask;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -49,38 +38,7 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
 
     @OnClick(R.id.river_details_favorite_button) void OnClick(){
         //api token and river id
-        StringRequest postRequest = new StringRequest(Request.Method.POST, URL,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonResponse = new JSONObject(response).getJSONObject("form");
-                            String site = jsonResponse.getString("site"),
-                                    network = jsonResponse.getString("network");
-                            System.out.println("Site: "+site+"\nNetwork: "+network);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                    }
-                }
-        ) {
-            @Override
-            protected Map<String, String> getParams()
-            {
-                Map<String, String>  params = new HashMap<>();
-                // the POST parameters:
-                params.put("river id", river.getId());
-                params.put("api token", mPreference.getString("token", null));
-                return params;
-            }
-        };
-        VolleyNetworkTask.getInstance().getRequestQueue().add(postRequest);
+
 
     }
 

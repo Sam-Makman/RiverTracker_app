@@ -9,11 +9,18 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.makman.rivertracker.Activities.SignUpActivity">
     <EditText
+        android:id="@+id/signup_name_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:hint="@string/your_name"/>
+    <EditText
         android:id="@+id/signup_edit_text_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
         android:hint="@string/signup_edit_email"
+        android:layout_below="@id/signup_name_edit_text"
         />
     <EditText
         android:id="@+id/signup_edit_text_password"

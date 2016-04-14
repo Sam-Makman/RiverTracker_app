@@ -82,12 +82,10 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkTask
                 @Override
                 public void onResponse(JSONObject response) {
                     try {
-                        response = response.getJSONObject("args");
-                        String site = response.getString("site"),
-                                network = response.getString("network");
+                        //response = response.getJSONObject("args");
                         mEditor.putString(TOKEN, response.getString("token"));
+                        Log.d(TAG, response.toString());
                         mEditor.apply();
-                        System.out.println("Site: "+site+"\nNetwork: "+network);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

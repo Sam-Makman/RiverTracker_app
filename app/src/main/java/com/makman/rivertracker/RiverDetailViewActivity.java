@@ -53,7 +53,7 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
     TextView mRiverDescription;
 
     @OnClick(R.id.river_details_favorite_button) void OnClick(){
-        String url = URL + river.getId().toString() + "&api_token=" + mPreference.getString(LoginActivity.TOKEN, "");
+        String url = URL + river.getId() + "&token=" + mPreference.getString(LoginActivity.TOKEN, "");
         Log.d(TAG, "OnClick: " + url);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
         VolleyNetworkTask.getInstance().getRequestQueue().add(jsonObjectRequest);

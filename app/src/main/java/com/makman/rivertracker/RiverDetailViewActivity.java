@@ -15,6 +15,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.makman.rivertracker.Activities.LoginActivity;
+import com.makman.rivertracker.Fragments.MapFragment;
 import com.makman.rivertracker.Fragments.RiversFragment;
 import com.makman.rivertracker.NetworkTasks.RiverDetailNetworkTask;
 import com.makman.rivertracker.NetworkTasks.VolleyNetworkTask;
@@ -33,6 +34,7 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
     private static final String favoriteURL = "https://radiant-temple-90497.herokuapp.com/api/favorite?id=";
     private static final String alertURL = "https://radiant-temple-90497.herokuapp.com/api/alert?id=";
     public static final String PREFERENCES = "TOKEN_PREFERENCES";
+    public static final String RIVERMAP = "river_map";
     SharedPreferences mPreference;
 
     @Bind(R.id.river_details_alerts_textview)
@@ -74,6 +76,11 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
         mPreference = getSharedPreferences(RiverDetailViewActivity.PREFERENCES,Context.MODE_PRIVATE);
         river = getIntent().getParcelableExtra(RiversFragment.ARG_RIVER);
         PostExecute(river);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(RIVERMAP, river);
+        MapFragment map = new MapFragment();
+        map.setArguments(bundle);
+
     }
 
     @Override

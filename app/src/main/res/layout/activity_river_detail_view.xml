@@ -101,6 +101,14 @@
         android:layout_below="@id/river_details_description_textview"
         android:text="@string/river_detail_alerts_string"
         tools:text="ALERT" />
+
+        <FrameLayout
+            android:id="@+id/river_details_map_frame"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_below="@id/river_details_alerts_textview">
+        </FrameLayout>
+
     </RelativeLayout>
 
 </ScrollView>

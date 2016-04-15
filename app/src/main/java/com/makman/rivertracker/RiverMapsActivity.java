@@ -49,6 +49,8 @@ public class RiverMapsActivity extends FragmentActivity implements OnMapReadyCal
     @Bind(R.id.maps_river_direction_button)
     Button mDirectionButotn;
 
+    @Bind(R.id.maps_river_detail_button)
+    Button mDetailButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,6 +166,13 @@ public class RiverMapsActivity extends FragmentActivity implements OnMapReadyCal
         double lng = Double.valueOf(coords[1]);
         String uri = String.format(Locale.ENGLISH, "google.navigation:q=%f,%f",lat,lng );
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.maps_river_detail_button)
+    void details(){
+        Intent intent = new Intent(this,RiverDetailViewActivity.class);
+        intent.putExtra(RiversFragment.ARG_RIVER, mCurRiver);
         startActivity(intent);
     }
 

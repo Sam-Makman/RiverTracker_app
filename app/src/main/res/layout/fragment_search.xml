@@ -27,6 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/search_text_river_name"/>
+
     <TextView
         android:id="@+id/search_text_river_section"
         android:layout_width="match_parent"
@@ -56,11 +57,25 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/search_text_river_difficulty"/>
 
+    <TextView
+        android:id="@+id/search_text_river_state"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/river_difficulty"
+        android:textSize="20sp"
+        android:layout_below="@id/search_spinner_difficulty"
+        />
+
+    <Spinner
+        android:id="@+id/search_spinner_state"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/search_text_river_state"/>
     <Button
         android:id="@+id/search_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/search_spinner_difficulty"
+        android:layout_below="@id/search_spinner_state"
         android:text="@string/search_search"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"

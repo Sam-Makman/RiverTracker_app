@@ -78,6 +78,7 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkTask
         }else if( password.isEmpty()){
             Toast.makeText(this, R.string.login_enter_pass, Toast.LENGTH_SHORT).show();
         }else{
+
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
             VolleyNetworkTask.getInstance().getRequestQueue().add(jsonObjectRequest);
         }

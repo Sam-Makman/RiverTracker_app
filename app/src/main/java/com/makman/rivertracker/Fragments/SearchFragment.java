@@ -29,10 +29,11 @@ import java.util.ArrayList;
 public class SearchFragment extends Fragment implements OnClickListener, MultiRiverNetworkTask.MultiRiverNetworkTaskListener {
 
     private static final String TAG = SearchFragment.class.getSimpleName();
-    public Spinner mSpinner;
+    public Spinner mDifficultySpinner;
     public Button mButton;
     public EditText mNameEdit;
     public EditText mSectionEdit;
+    public Spinner mStateSpinner;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,12 +53,23 @@ public class SearchFragment extends Fragment implements OnClickListener, MultiRi
 
         ((FavoritesActivity) getActivity()).setTitle("Search For Rivers");
 
-        mSpinner = (Spinner) rootView.findViewById(R.id.search_spinner_difficulty);
+        mDifficultySpinner = (Spinner) rootView.findViewById(R.id.search_spinner_difficulty);
+
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.difficulty_ratings,
                 android.R.layout.simple_spinner_dropdown_item);
+
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mSpinner.setAdapter(spinnerAdapter);
+        mDifficultySpinner.setAdapter(spinnerAdapter);
+
+
+        mStateSpinner = (Spinner) rootView.findViewById(R.id.search_spinner_state);
+        ArrayAdapter<CharSequence> stateSpinAdapt = ArrayAdapter.createFromResource(getContext(),
+                R.array.states,
+                R.layout.support_simple_spinner_dropdown_item);
+
+        mStateSpinner.setAdapter(stateSpinAdapt);
+
         return rootView;
     }
 
@@ -68,8 +80,11 @@ public class SearchFragment extends Fragment implements OnClickListener, MultiRi
         String url = FavoritesActivity.RIVER_URL;
         url = url + "?";
         url += "name=" + mNameEdit.getText().toString() + "&";
-        if(!mSpinner.getSelectedItem().toString().equals("None")){
-            url += "difficulty=" + mSpinner.getSelectedItem().toString()+"&";
+        if(!mDifficultySpinner.getSelectedItem().toString().equals("None")){
+            url += "difficulty=" + mDifficultySpinner.getSelectedItem().toString()+"&";
+        }
+        if(!mStateSpinner.getSelectedItem().toString().equals("All")){
+            url += "state=" + mStateSpinner.getSelectedItem().toString()+"&";
         }
         url += "section=" + mSectionEdit.getText().toString() + "&";
         url += "commit=Search";

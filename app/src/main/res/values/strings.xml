@@ -38,7 +38,7 @@
     <string name="map">Map</string>
     <string name="no_results">No results</string>
     <string-array name="difficulty_ratings">
-        <item>None</item>
+        <item>All</item>
         <item>I</item>
         <item>II</item>
         <item>III</item>
@@ -105,4 +105,5 @@
     <string name="view_details">View Details</string>
     <string name="your_name">Your name</string>
     <string name="river_favorited_toast">River favorited!</string>
+    <string name="state">State</string>
 </resources>

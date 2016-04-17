@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -22,6 +24,7 @@ import com.makman.rivertracker.FavoritesActivity;
 import com.makman.rivertracker.NetworkTasks.MultiRiverNetworkTask;
 import com.makman.rivertracker.R;
 import com.makman.rivertracker.River;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -29,12 +32,15 @@ import java.util.ArrayList;
 public class SearchFragment extends Fragment implements OnClickListener, MultiRiverNetworkTask.MultiRiverNetworkTaskListener {
 
     private static final String TAG = SearchFragment.class.getSimpleName();
+    public static final String BACKGROUND_URL = "http://res.cloudinary.com/hgsa3o7eg/image/upload/v1460683974/12400671_863883430404267_1928887859281497838_n_wxenjo.png";
     public Spinner mDifficultySpinner;
     public Button mButton;
     public EditText mNameEdit;
     public EditText mSectionEdit;
     public Spinner mStateSpinner;
-
+    public ImageView mBackground;
+    public Button mMapButton;
+    private boolean useMap;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,10 +52,16 @@ public class SearchFragment extends Fragment implements OnClickListener, MultiRi
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_search, container, false);
 
+        useMap = false;
         mButton = (Button) rootView.findViewById(R.id.search_button);
         mButton.setOnClickListener(this);
         mNameEdit = (EditText) rootView.findViewById(R.id.search_edit_river_name);
         mSectionEdit = (EditText) rootView.findViewById(R.id.search_edit_river_section);
+        mBackground = (ImageView) rootView.findViewById(R.id.search_background_image);
+        mMapButton = (Button) rootView.findViewById(R.id.search_map_button);
+        mMapButton.setOnClickListener(this);
+
+        Picasso.with(getContext()).load(BACKGROUND_URL).fit().centerCrop().into(mBackground);
 
         ((FavoritesActivity) getActivity()).setTitle("Search For Rivers");
 
@@ -76,11 +88,14 @@ public class SearchFragment extends Fragment implements OnClickListener, MultiRi
 
     @Override
     public void onClick(View v) {
+        if(v.getId() == mMapButton.getId()){
+            useMap = true;
+        }
         MultiRiverNetworkTask task;
         String url = FavoritesActivity.RIVER_URL;
         url = url + "?";
         url += "name=" + mNameEdit.getText().toString() + "&";
-        if(!mDifficultySpinner.getSelectedItem().toString().equals("None")){
+        if(!mDifficultySpinner.getSelectedItem().toString().equals("All")){
             url += "difficulty=" + mDifficultySpinner.getSelectedItem().toString()+"&";
         }
         if(!mStateSpinner.getSelectedItem().toString().equals("All")){

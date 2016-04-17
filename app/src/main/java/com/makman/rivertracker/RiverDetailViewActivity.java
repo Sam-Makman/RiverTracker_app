@@ -138,9 +138,9 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
     public void setAlerts(Alert[] alerts){
         String alertString = "";
         for(Alert alert: alerts){
-            alertString+=alert.getmTitle() + "\n";
+            alertString+=alert.getmTitle() + "\n\n";
             alertString+=alert.getmDescription() + "\n";
-            alertString+=alert.getmDate() + "\n\n";
+            alertString+=alert.getmDate() + "\n\n\n";
         }
 
         mAlertsTextview.setText(alertString);

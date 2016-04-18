@@ -75,12 +75,14 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
         ButterKnife.bind(this);
         mPreference = getSharedPreferences(RiverDetailViewActivity.PREFERENCES,Context.MODE_PRIVATE);
         river = getIntent().getParcelableExtra(RiversFragment.ARG_RIVER);
-        PostExecute(river);
         Bundle bundle = new Bundle();
         bundle.putParcelable(RIVERMAP, river);
         MapFragment map = new MapFragment();
         map.setArguments(bundle);
-
+        android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.river_details_map_frame, map);
+        transaction.commit();
+        PostExecute(river);
     }
 
     @Override

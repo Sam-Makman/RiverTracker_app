@@ -10,6 +10,15 @@
 <li> search rivers by map/location</li>
 </ul>
 
+<h2> Resources </h2>
+<ul>
+<li> Our own API  </li>
+<li>  USGS streamflows API</li>
+<li>Google Maps API  </li>
+<li> Butterknife </li>
+<li> Piccaso </li>
+</ul>
+
 <h4> Sign up</h4>
 This is the default activity. You can sign up for a new account, login to an existing account or continue without an account.
 When you create a new account the information is sent to our backend and a new api token is issued to the user. If the user already

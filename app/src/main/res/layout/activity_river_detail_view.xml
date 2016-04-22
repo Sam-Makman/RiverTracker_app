@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tool="http://schemas.android.com/apk/res-auto"
-    tools:context="com.makman.rivertracker.RiverDetailViewActivity">
+    tools:context="com.makman.rivertracker.RiverDetailViewActivity"
+    android:id="@+id/river_detail_relative_layout">
 
-    <RelativeLayout
-        android:id="@+id/river_details_relativelayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
         <Button
             android:id="@+id/river_details_favorite_button"
             android:layout_width="wrap_content"
@@ -18,12 +15,11 @@
             android:textSize="20sp"
             android:layout_alignParentRight="true"
             android:text="@string/favorite_button"/>
-    <ImageView
+
+        <ImageView
         android:id="@+id/river_details_image_view"
         android:layout_width="match_parent"
         android:layout_height="225dp"
-
-        android:layout_below="@id/river_details_favorite_button"
         android:contentDescription="River Image" />
 
         <LinearLayout
@@ -60,11 +56,9 @@
             android:id="@+id/river_detail_frame_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_below="@id/river_detail_linear_layout"
-            tools:backgroun="#FF0000">
+            android:layout_alignParentBottom="true"
+            tools:background="#FF0000">
         </FrameLayout>
 
-    </RelativeLayout>
-
-</ScrollView>
+</RelativeLayout>

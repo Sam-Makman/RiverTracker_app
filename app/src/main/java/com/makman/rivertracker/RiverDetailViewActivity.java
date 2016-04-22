@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -75,6 +76,8 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
         ButterKnife.bind(this);
         mPreference = getSharedPreferences(RiverDetailViewActivity.PREFERENCES,Context.MODE_PRIVATE);
         river = getIntent().getParcelableExtra(RiversFragment.ARG_RIVER);
+        getSupportActionBar().setTitle(river.getName());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Bundle bundle = new Bundle();
         bundle.putParcelable(RIVERMAP, river);
         MapFragment map = new MapFragment();
@@ -142,6 +145,17 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
     public void onResponse(JSONObject response) {
         Log.d(TAG, "hit the onResponse");
         Toast.makeText(this, R.string.river_favorited_toast, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home :
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public void setAlerts(Alert[] alerts){

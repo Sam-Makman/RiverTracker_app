@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -17,6 +19,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.makman.rivertracker.FavoritesActivity;
 import com.makman.rivertracker.NetworkTasks.VolleyNetworkTask;
 import com.makman.rivertracker.R;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,6 +32,8 @@ import butterknife.OnClick;
 public class SignUpActivity extends AppCompatActivity implements Response.ErrorListener, Response.Listener<JSONObject> {
     private static final String TAG = SignUpActivity.class.getSimpleName();
     private static final String URL = "https://radiant-temple-90497.herokuapp.com/api/signup";
+    private static final String BACKGROUND_URL = "http://res.cloudinary.com/hgsa3o7eg/image/upload/v1461118214/12998153_996950453716331_4774880468651775980_o_rhp348.jpg";
+
     private final String[] userInfo = new String[4];
 
 
@@ -53,6 +58,8 @@ public class SignUpActivity extends AppCompatActivity implements Response.ErrorL
     @Bind(R.id.signup_name_edit_text)
     EditText mName;
 
+    @Bind(R.id.signup_background)
+    ImageView mBackground;
 
     SharedPreferences mPreference;
     SharedPreferences.Editor mEditor;
@@ -62,6 +69,11 @@ public class SignUpActivity extends AppCompatActivity implements Response.ErrorL
         setContentView(R.layout.activity_sign_up);
         ButterKnife.bind(this);
         SharedPreferences pref = getSharedPreferences(LoginActivity.PREFERENCES, MODE_PRIVATE);
+
+        ActionBar bar = getSupportActionBar();
+        bar.hide();
+
+        Picasso.with(this).load(BACKGROUND_URL).fit().centerCrop().into(mBackground);
 
         if(!pref.getString(LoginActivity.TOKEN, "").equals("")){
             Intent intent = new Intent(this, FavoritesActivity.class);

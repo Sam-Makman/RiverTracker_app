@@ -37,7 +37,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         ButterKnife.bind(this, rootView);
         mSupportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_fragment_for_detail_view);
         mSupportMapFragment.getMapAsync(this);
-        mRiver = getArguments().getParcelable(RiverDetailViewActivity.RIVERMAP);
+        mRiver = getArguments().getParcelable(RiverDetailViewActivity.DETAILRIVER);
         Log.d(TAG, "mapfragment oncreateview");
         return rootView;
     }
@@ -71,7 +71,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
 
         LatLngBounds bounds = new LatLngBounds(new LatLng(minLat, minLong), new LatLng(maxLat, maxLong));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds,200 ));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds,10 ));
 
     }
 }

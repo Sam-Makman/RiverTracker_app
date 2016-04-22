@@ -60,7 +60,9 @@
             android:id="@+id/river_detail_frame_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/river_detail_linear_layout">
+            android:layout_alignParentBottom="true"
+            android:layout_below="@id/river_detail_linear_layout"
+            tools:backgroun="#FF0000">
         </FrameLayout>
 
     </RelativeLayout>

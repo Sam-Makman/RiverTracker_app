@@ -62,6 +62,12 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
     @OnClick(R.id.river_detail_map_button)
     void onMapClick(){
         MapFragment mapFragment = new MapFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(RiverDetailViewActivity.DETAILRIVER, river);
+        mapFragment.setArguments(bundle);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.river_detail_frame_layout, mapFragment);
+        transaction.commit();
     }
 
     @OnClick(R.id.river_details_favorite_button)

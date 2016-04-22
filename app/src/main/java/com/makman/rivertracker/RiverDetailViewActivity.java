@@ -54,6 +54,9 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
     @OnClick(R.id.river_detail_alert_button)
     void onAlertClick(){
         RiverAlertFragment fragment = new RiverAlertFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.river_detail_frame_layout, fragment);
+        transaction.commit();
     }
 
     @OnClick(R.id.river_detail_map_button)

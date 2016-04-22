@@ -24,9 +24,13 @@ import com.makman.rivertracker.FavoritesActivity;
 import com.makman.rivertracker.NetworkTasks.MultiRiverNetworkTask;
 import com.makman.rivertracker.R;
 import com.makman.rivertracker.River;
+import com.makman.rivertracker.RiverMapsActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class SearchFragment extends Fragment implements OnClickListener, MultiRiverNetworkTask.MultiRiverNetworkTaskListener {
@@ -52,6 +56,7 @@ public class SearchFragment extends Fragment implements OnClickListener, MultiRi
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_search, container, false);
 
+        ButterKnife.bind(this, rootView);
         useMap = false;
         mButton = (Button) rootView.findViewById(R.id.search_button);
         mButton.setOnClickListener(this);
@@ -67,24 +72,30 @@ public class SearchFragment extends Fragment implements OnClickListener, MultiRi
 
         mDifficultySpinner = (Spinner) rootView.findViewById(R.id.search_spinner_difficulty);
 
+
+
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.difficulty_ratings,
-                android.R.layout.simple_spinner_dropdown_item);
+                R.layout.spinner_item);
 
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mDifficultySpinner.setAdapter(spinnerAdapter);
 
 
         mStateSpinner = (Spinner) rootView.findViewById(R.id.search_spinner_state);
         ArrayAdapter<CharSequence> stateSpinAdapt = ArrayAdapter.createFromResource(getContext(),
                 R.array.states,
-                R.layout.support_simple_spinner_dropdown_item);
+                R.layout.spinner_item);
 
         mStateSpinner.setAdapter(stateSpinAdapt);
 
         return rootView;
     }
 
+
+    @OnClick(R.id.search_button)
+    void click(){
+
+    }
 
     @Override
     public void onClick(View v) {
@@ -124,10 +135,18 @@ public class SearchFragment extends Fragment implements OnClickListener, MultiRi
         }else if(rivers == null){
             Toast.makeText(getContext(), R.string.cannot_connect, Toast.LENGTH_SHORT).show();
         }else {
-            android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            RiversFragment riversFragment = RiversFragment.newInstance(rivers, title);
-            transaction.replace(R.id.activity_favorite_frame_layout, riversFragment);
-            transaction.commit();
+            if(useMap){
+                Intent intent = new Intent(getContext(), RiverMapsActivity.class);
+                intent.putParcelableArrayListExtra(RiversFragment.ARG_RIVERS, rivers);
+                startActivity(intent);
+            }else{
+                android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                RiversFragment riversFragment = RiversFragment.newInstance(rivers, title);
+                transaction.replace(R.id.activity_favorite_frame_layout, riversFragment);
+                transaction.commit();
+            }
+
         }
+        useMap = false;
     }
 }

@@ -129,7 +129,7 @@ public class RiversFragment extends Fragment implements RiverRecyclerViewAdapter
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(getActivity(), RiverMapsActivity.class);
-        Intent arg_river = intent.putParcelableArrayListExtra(ARG_RIVERS, mRivers);
+        intent.putExtra(ARG_RIVERS, mRivers);
         startActivity(intent);
     }
 

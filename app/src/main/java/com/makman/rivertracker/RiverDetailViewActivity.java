@@ -85,6 +85,10 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
         ButterKnife.bind(this);
         mPreference = getSharedPreferences(RiverDetailViewActivity.PREFERENCES, Context.MODE_PRIVATE);
         river = getIntent().getParcelableExtra(RiversFragment.ARG_RIVER);
+        RiverDescriptionFragment fragment = RiverDescriptionFragment.newInstance(river);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.river_detail_frame_layout, fragment);
+        transaction.commit();
         PostExecute(river);
     }
 

@@ -1,0 +1,16 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.makman.rivertracker.Fragments.RiverDescriptionFragment"
+    android:id="@+id/river_detail_description_fragment">
+
+    <TextView
+        android:id="@+id/river_detail_description_body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        />
+
+
+</RelativeLayout>

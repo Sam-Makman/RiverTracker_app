@@ -35,7 +35,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         ButterKnife.bind(this, rootView);
         mSupportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_fragment_for_detail_view);
         mSupportMapFragment.getMapAsync(this);
-        mRiver = savedInstanceState.getParcelable(RiverDetailViewActivity.RIVERMAP);
+        mRiver = savedInstanceState.getParcelable(RiverDetailViewActivity.DETAILRIVER);
         Log.d(TAG, "mapfragment oncreateview");
         return rootView;
     }

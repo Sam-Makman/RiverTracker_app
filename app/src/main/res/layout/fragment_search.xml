@@ -4,82 +4,119 @@
     android:layout_height="match_parent"
     tools:context="com.makman.rivertracker.Fragments.SearchFragment"
     android:orientation="horizontal">
-
-    <TextView
-        android:id="@+id/search_title"
+    <ImageView
+        android:id="@+id/search_background_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:background="#FF0000"/>
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:text="@string/search_title"
-        android:textSize="30sp"
-        />
-    <TextView
-        android:id="@+id/search_text_river_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/search_river_name"
-        android:textSize="20sp"
-        android:layout_below="@id/search_title"
-        />
+        android:layout_margin="24dp"
+        android:background="@drawable/rounded_edittext">
     <EditText
         android:id="@+id/search_edit_river_name"
         android:inputType="text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/search_text_river_name"/>
+        android:hint="@string/search_river_name"
+        android:layout_marginEnd="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginStart="50dp"
+        android:textAlignment="center"/>
 
-    <TextView
-        android:id="@+id/search_text_river_section"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/search_section"
-        android:textSize="20sp"
-        android:layout_below="@id/search_edit_river_name"
-        />
     <EditText
         android:id="@+id/search_edit_river_section"
         android:inputType="text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/search_text_river_section"/>
-    <TextView
-        android:id="@+id/search_text_river_difficulty"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/river_difficulty"
-        android:textSize="20sp"
-        android:layout_below="@id/search_edit_river_section"
+        android:hint="@string/search_section"
+        android:layout_marginEnd="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginStart="50dp"
+        android:textAlignment="center"
+        android:layout_below="@id/search_edit_river_name"
         />
+    <LinearLayout
+        android:id="@+id/search_relative_difficulty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_edittext"
+        android:layout_below="@id/search_edit_river_section">
+        <TextView
+            android:id="@+id/search_text_river_difficulty"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:text="@string/river_difficulty"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:background="@drawable/rounded_edittext"
+            />
 
-    <Spinner
-        android:id="@+id/search_spinner_difficulty"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/search_text_river_difficulty"/>
+        <Spinner
+            android:id="@+id/search_spinner_difficulty"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_edittext" />
 
-    <TextView
-        android:id="@+id/search_text_river_state"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/river_difficulty"
-        android:textSize="20sp"
-        android:layout_below="@id/search_spinner_difficulty"
-        />
 
-    <Spinner
-        android:id="@+id/search_spinner_state"
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/search_relative_state"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/search_text_river_state"/>
-    <Button
-        android:id="@+id/search_button"
+        android:background="@drawable/rounded_edittext"
+        android:layout_margin="24dp"
+        android:padding="0dp"
+        android:layout_below="@id/search_relative_difficulty">
+        <TextView
+            android:id="@+id/search_text_river_state"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:text="@string/state"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:background="@drawable/rounded_edittext"
+            />
+
+        <Spinner
+            android:id="@+id/search_spinner_state"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_edittext"/>
+    </LinearLayout>
+
+    </RelativeLayout>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/search_spinner_state"
-        android:text="@string/search_search"
+        android:layout_alignParentBottom="true"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:textSize="18sp"
-        />
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/rounded_edittext">
+        <Button
+            android:id="@+id/search_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/search_search"
+            android:textSize="18sp"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            />
+        <Button
+            android:id="@+id/search_map_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Map"
+            android:textSize="18sp"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            />
+    </LinearLayout>
 
 </RelativeLayout>

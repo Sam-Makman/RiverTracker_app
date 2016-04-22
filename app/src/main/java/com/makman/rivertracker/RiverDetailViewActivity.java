@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -75,8 +76,6 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
         ButterKnife.bind(this);
         mPreference = getSharedPreferences(RiverDetailViewActivity.PREFERENCES, Context.MODE_PRIVATE);
         river = getIntent().getParcelableExtra(RiversFragment.ARG_RIVER);
-        mBundle = new Bundle();
-        mBundle.putParcelable(DETAILRIVER, river);
         PostExecute(river);
     }
 
@@ -96,5 +95,23 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
         Toast.makeText(this, "@string/river_favorited_toast", Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home :
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
+    public void setAlerts(Alert[] alerts) {
+        String alertString = "";
+        for (Alert alert : alerts) {
+            alertString += alert.getmTitle() + "\n\n";
+            alertString += alert.getmDescription() + "\n";
+            alertString += alert.getmDate() + "\n\n\n";
+        }
+    }
 }

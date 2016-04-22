@@ -39,29 +39,31 @@
         android:layout_marginRight="40dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/rounded_edittext"/>
-
+    <Button
+        android:id="@+id/login_button_signup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/signup_text_signup"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginStart="40dp"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:textColor="#FFF"
+        android:layout_marginRight="40dp" />
     <Button
         android:id="@+id/login_button_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/login_edit_text_password"
+        android:layout_above="@id/login_button_signup"
         android:text="@string/login_login"
-        android:layout_marginTop="120dp"
         android:layout_marginLeft="40dp"
         android:layout_marginEnd="40dp"
         android:layout_marginStart="40dp"
         android:layout_marginRight="40dp"
         android:background="@drawable/rounded_edittext"
         />
-    <Button
-        android:id="@+id/login_button_signup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/signup_text_signup"
-        android:layout_below="@id/login_button_login"
-        android:layout_alignEnd="@id/login_button_login"
-        android:layout_alignRight="@id/login_button_login"
-        style="@style/Base.Widget.AppCompat.Button.Borderless"
-        android:textColor="#FFF"/>
+
 
 </RelativeLayout>

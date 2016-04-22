@@ -108,7 +108,7 @@ public class FavoritesActivity extends AppCompatActivity implements MultiRiverNe
     private void logout(){
         mEditor.putString(LoginActivity.TOKEN, "");
         mEditor.apply();
-        Intent intent = new Intent(this, SignUpActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();
     }

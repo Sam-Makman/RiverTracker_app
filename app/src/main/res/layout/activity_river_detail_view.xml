@@ -4,34 +4,73 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tool="http://schemas.android.com/apk/res-auto"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.makman.rivertracker.RiverDetailViewActivity">
 
     <RelativeLayout
         android:id="@+id/river_details_relativelayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <Button
-        android:id="@+id/river_details_favorite_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:textSize="20sp"
-        android:text="@string/favorite_button"/>
 
     <ImageView
         android:id="@+id/river_details_image_view"
         android:layout_width="match_parent"
         android:layout_height="225dp"
+<<<<<<< HEAD
         android:layout_below="@id/river_details_favorite_button"
         android:contentDescription="River Image" />
 
         <LinearLayout
             android:id="@+id/river_detail_linear_layout"
             android:layout_width="match_parent"
+=======
+        android:contentDescription="River Image"
+        tools:background="#FF0000"/>
+
+        <Button
+            android:id="@+id/river_details_favorite_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textSize="20sp"
+            android:layout_below="@id/river_details_image_view"
+            android:text="@string/favorite_button"/>
+
+    <TextView
+        android:id="@+id/river_details_section_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/river_details_image_view"
+        android:textColor="#FFFFFF"
+        android:paddingRight="30dp"
+        android:paddingLeft="30dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginRight="50dp"
+        android:textSize="30sp"
+        android:text="@string/river_detail_section_string"
+        android:background="@drawable/detail_background"
+        tools:text="section"/>
+
+    <LinearLayout
+        android:id="@+id/river_details_linearlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/river_details_section_textview">
+
+        <TextView
+            android:id="@+id/river_details_difficulty_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:text="@string/river_detail_difficulty_string"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            tools:text="difficulty"/>
+
+        <TextView
+            android:id="@+id/river_details_state_textview"
+            android:layout_width="wrap_content"
+>>>>>>> master
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_below="@id/river_details_image_view">

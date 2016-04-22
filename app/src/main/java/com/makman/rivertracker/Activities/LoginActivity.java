@@ -59,6 +59,16 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkTask
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        SharedPreferences pref = getSharedPreferences(LoginActivity.PREFERENCES, MODE_PRIVATE);
+
+        Log.d(TAG,pref.getString(LoginActivity.TOKEN, ""));
+        if(!pref.getString(LoginActivity.TOKEN, "").equals("")){
+            Intent intent = new Intent(this, FavoritesActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
         ButterKnife.bind(this);
         mPreference = getSharedPreferences(LoginActivity.PREFERENCES,Context.MODE_PRIVATE);
         mEditor = mPreference.edit();

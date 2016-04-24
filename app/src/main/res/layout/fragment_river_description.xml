@@ -2,15 +2,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tool="http://schemas.android.com/apk/res-auto"
     tools:context="com.makman.rivertracker.Fragments.RiverDescriptionFragment"
     android:id="@+id/river_detail_description_fragment">
+    <LinearLayout
+        android:id="@+id/river_detail_linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        >
+        <TextView
+            android:id="@+id/river_detail_difficulty"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            tools:text="IV"/>
+        <TextView
+            android:id="@+id/river_detail_cfs"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            tools:text="1500 cfs"/>
+        <TextView
+            android:id="@+id/river_detail_state"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            tools:text="WA"/>
 
+    </LinearLayout>
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/river_detail_linear_layout">
     <TextView
         android:id="@+id/river_detail_description_body"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        />
-
+        android:layout_marginLeft="15dp" />
+    </ScrollView>
 
 </RelativeLayout>

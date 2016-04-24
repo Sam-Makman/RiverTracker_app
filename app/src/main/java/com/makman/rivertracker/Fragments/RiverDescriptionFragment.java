@@ -12,6 +12,8 @@ import com.makman.rivertracker.R;
 import com.makman.rivertracker.River;
 import com.makman.rivertracker.RiverDetailViewActivity;
 
+import org.w3c.dom.Text;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -19,6 +21,15 @@ public class RiverDescriptionFragment extends Fragment{
 
     @Bind(R.id.river_detail_description_body)
     TextView mDescription;
+
+    @Bind(R.id.river_detail_cfs)
+    TextView mCfs;
+
+    @Bind(R.id.river_detail_difficulty)
+    TextView mDifficulty;
+
+    @Bind(R.id.river_detail_state)
+    TextView mState;
 
     River mRiver;
 
@@ -28,6 +39,9 @@ public class RiverDescriptionFragment extends Fragment{
         View view = inflater.inflate(R.layout.fragment_river_description, container, false);
         ButterKnife.bind(this, view);
         mRiver=getArguments().getParcelable(RiverDetailViewActivity.DETAILRIVER);
+        mCfs.setText(mRiver.getCfs());
+        mState.setText(mRiver.getState());
+        mDifficulty.setText(mRiver.getDifficulty());
         mDescription.setText(mRiver.getDetails().toString());
         return view;
     }

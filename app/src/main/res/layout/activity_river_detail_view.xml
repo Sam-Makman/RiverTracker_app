@@ -34,6 +34,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/river_details_description_button"
+                style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+                android:textColor="@color/colorPrimary"
                 android:layout_weight="1"/>
 
             <Button
@@ -41,6 +43,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/river_detail_alerts"
+                android:textColor="#000000"
+                style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_weight="1"/>
 
             <Button
@@ -48,6 +52,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/river_detail_map_button"
+                android:textColor="#000000"
+                style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_weight="1"/>
 
         </LinearLayout>

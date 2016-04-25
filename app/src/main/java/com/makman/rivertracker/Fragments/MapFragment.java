@@ -71,7 +71,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
 
         LatLngBounds bounds = new LatLngBounds(new LatLng(minLat, minLong), new LatLng(maxLat, maxLong));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds,10 ));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds,200 ));
 
     }
 }

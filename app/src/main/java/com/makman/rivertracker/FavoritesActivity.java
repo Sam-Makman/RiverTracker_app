@@ -72,6 +72,7 @@ public class FavoritesActivity extends AppCompatActivity implements MultiRiverNe
             RiversFragment riversFragment = RiversFragment.newInstance(rivers, title);
             android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.activity_favorite_frame_layout, riversFragment);
+            transaction.addToBackStack("favorites");
             transaction.commit();
         }
     }

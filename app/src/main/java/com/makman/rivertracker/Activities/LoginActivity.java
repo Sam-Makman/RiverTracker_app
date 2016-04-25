@@ -82,7 +82,7 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkTask
         String email = mEmail.getText().toString();
         String password = mPassword.getText().toString();
         String url = URL+ email + "&password=" + password;
-
+        mButton.setEnabled(false);
         if(email.isEmpty()){
             Toast.makeText(this, R.string.login_enter_email, Toast.LENGTH_SHORT).show();
         }else if( password.isEmpty()){
@@ -95,6 +95,8 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkTask
     }
     @OnClick(R.id.login_button_signup)
     void signup(){
+        VolleyNetworkTask.getInstance().getRequestQueue().cancelAll(this);
+        mSignup.setEnabled(false);
         Intent intent = new Intent(this, SignUpActivity.class);
         startActivity(intent);
         finish();

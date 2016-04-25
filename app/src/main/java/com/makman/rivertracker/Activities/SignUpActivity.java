@@ -88,6 +88,7 @@ public class SignUpActivity extends AppCompatActivity implements Response.ErrorL
         userInfo[2] = mPassword.getText().toString();
         userInfo[3] = mConfirm.getText().toString();
 
+        mSignup.setEnabled(false);
 
         if(!userInfo[2].equals(userInfo[3])){
             Toast.makeText(this, "Mismatched passwords", Toast.LENGTH_SHORT).show();
@@ -109,12 +110,14 @@ public class SignUpActivity extends AppCompatActivity implements Response.ErrorL
     }
 
     @OnClick(R.id.signup_button_have_account) void login(){
+        VolleyNetworkTask.getInstance().getRequestQueue().cancelAll(this);
         Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
     }
 
     @OnClick(R.id.signup_button_no_account) void tryItOut(){
+        VolleyNetworkTask.getInstance().getRequestQueue().cancelAll(this);
         Intent intent = new Intent(SignUpActivity.this, FavoritesActivity.class);
         startActivity(intent);
         finish();
@@ -130,7 +133,8 @@ public class SignUpActivity extends AppCompatActivity implements Response.ErrorL
     public void onResponse(JSONObject response) {
         mPreference = getSharedPreferences(LoginActivity.PREFERENCES, Context.MODE_PRIVATE);
         mEditor = mPreference.edit();
-        //response = response.getJSONObject("args");
+        
+        mSignup.setEnabled(true);
         try {
             mEditor.putString(LoginActivity.TOKEN, response.getString("token"));
             Log.d(TAG, response.getString("token"));

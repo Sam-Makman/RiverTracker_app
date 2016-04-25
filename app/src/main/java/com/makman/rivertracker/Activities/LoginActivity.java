@@ -85,8 +85,10 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkTask
         mButton.setEnabled(false);
         if(email.isEmpty()){
             Toast.makeText(this, R.string.login_enter_email, Toast.LENGTH_SHORT).show();
+            mButton.setEnabled(true);
         }else if( password.isEmpty()){
             Toast.makeText(this, R.string.login_enter_pass, Toast.LENGTH_SHORT).show();
+            mButton.setEnabled(true);
         }else{
 
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
@@ -139,23 +141,30 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkTask
 
     @Override
     public void onErrorResponse(VolleyError error) {
-
+        Toast.makeText(this,"Login Failed", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onResponse(JSONObject response) {
         mPreference = getSharedPreferences(LoginActivity.PREFERENCES,Context.MODE_PRIVATE);
         mEditor = mPreference.edit();
+        mButton.setEnabled(true);
         try {
-            mEditor.putString(TOKEN, response.getString("token"));
-            Log.d(TAG, response.getString("token"));
+            if(response.has("token")){
+                mEditor.putString(TOKEN, response.getString("token"));
+                Log.d(TAG, response.getString("token"));
+                Log.d(TAG, response.toString());
+                mEditor.apply();
+                Intent intent = new Intent(LoginActivity.this, FavoritesActivity.class);
+                startActivity(intent);
+                finish();
+        }else{
+                Toast.makeText(this, R.string.login_failed, Toast.LENGTH_SHORT).show();
+            }
         } catch (JSONException e) {
             e.printStackTrace();
+            Toast.makeText(this,R.string.login_failed, Toast.LENGTH_SHORT).show();
         }
-        Log.d(TAG, response.toString());
-        mEditor.apply();
-        Intent intent = new Intent(LoginActivity.this, FavoritesActivity.class);
-        startActivity(intent);
-        finish();
+
     }
 }

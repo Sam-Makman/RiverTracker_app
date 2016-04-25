@@ -89,9 +89,13 @@ public class SignUpActivity extends AppCompatActivity implements Response.ErrorL
         userInfo[3] = mConfirm.getText().toString();
 
         mSignup.setEnabled(false);
-
-        if(!userInfo[2].equals(userInfo[3])){
-            Toast.makeText(this, "Mismatched passwords", Toast.LENGTH_SHORT).show();
+        if(userInfo[0].equals("") || userInfo[1].equals("") || userInfo[2].equals("") || userInfo[2].equals("")){
+            Toast.makeText(this, R.string.complete_all_fields, Toast.LENGTH_SHORT).show();
+            mSignup.setEnabled(true);
+        }
+        else if(!userInfo[2].equals(userInfo[3])){
+            Toast.makeText(this, R.string.mismatched_passwords, Toast.LENGTH_SHORT).show();
+            mSignup.setEnabled(true);
         }else{
             JSONObject user = new JSONObject();
             JSONObject params = new JSONObject();
@@ -127,24 +131,35 @@ public class SignUpActivity extends AppCompatActivity implements Response.ErrorL
     @Override
     public void onErrorResponse(VolleyError error) {
         error.printStackTrace();
+        Toast.makeText(this, R.string.signup_failed, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onResponse(JSONObject response) {
         mPreference = getSharedPreferences(LoginActivity.PREFERENCES, Context.MODE_PRIVATE);
         mEditor = mPreference.edit();
-        
+
         mSignup.setEnabled(true);
+
         try {
-            mEditor.putString(LoginActivity.TOKEN, response.getString("token"));
-            Log.d(TAG, response.getString("token"));
-            Log.d(TAG, response.toString());
+            if(response.has("token")){
+                String token = response.getString("token");
+                mEditor.putString(LoginActivity.TOKEN, token);
+                Log.d(TAG, token);
+                Log.d(TAG, response.toString());
+                mEditor.apply();
+                Intent intent = new Intent(SignUpActivity.this, FavoritesActivity.class);
+                startActivity(intent);
+                finish();
+            }else{
+                Toast.makeText(this, R.string.signup_failed, Toast.LENGTH_SHORT).show();
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
+            Toast.makeText(this, R.string.signup_failed, Toast.LENGTH_SHORT).show();
+
         }
-        mEditor.apply();
-        Intent intent = new Intent(SignUpActivity.this, FavoritesActivity.class);
-        startActivity(intent);
-        finish();
+
     }
 }

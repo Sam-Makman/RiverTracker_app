@@ -126,7 +126,7 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
 
     @Override
     public void onResponse(JSONObject response) {
-        Toast.makeText(this, "@string/river_favorited_toast", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.river_favorited_toast, Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -61,6 +63,9 @@ public class SignUpActivity extends AppCompatActivity implements Response.ErrorL
     @Bind(R.id.signup_background)
     ImageView mBackground;
 
+    @Bind(R.id.signup_progress_bar)
+    ProgressBar mProgress;
+
     SharedPreferences mPreference;
     SharedPreferences.Editor mEditor;
     @Override
@@ -97,9 +102,11 @@ public class SignUpActivity extends AppCompatActivity implements Response.ErrorL
             Toast.makeText(this, R.string.mismatched_passwords, Toast.LENGTH_SHORT).show();
             mSignup.setEnabled(true);
         }else{
+
             JSONObject user = new JSONObject();
             JSONObject params = new JSONObject();
             try {
+                mProgress.setVisibility(View.VISIBLE);
                 params.put("name", userInfo[0]);
                 params.put("email", userInfo[1]);
                 params.put("password", userInfo[2]);
@@ -131,6 +138,8 @@ public class SignUpActivity extends AppCompatActivity implements Response.ErrorL
     @Override
     public void onErrorResponse(VolleyError error) {
         error.printStackTrace();
+
+        mProgress.setVisibility(View.GONE);
         Toast.makeText(this, R.string.signup_failed, Toast.LENGTH_SHORT).show();
     }
 
@@ -138,6 +147,7 @@ public class SignUpActivity extends AppCompatActivity implements Response.ErrorL
     public void onResponse(JSONObject response) {
         mPreference = getSharedPreferences(LoginActivity.PREFERENCES, Context.MODE_PRIVATE);
         mEditor = mPreference.edit();
+        mProgress.setVisibility(View.GONE);
 
         mSignup.setEnabled(true);
 

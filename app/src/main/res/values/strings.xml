@@ -19,7 +19,7 @@
     <string name="search_rivers">Search Rivers</string>
     <string name="signup_edit_email">Enter Email</string>
     <string name="signup_edit_password">Enter Password</string>
-    <string name="signup_edit_repassword">re-enter password</string>
+    <string name="signup_edit_repassword">Re-Enter password</string>
     <string name="signup_text_signup">Sign Up</string>
     <string name="signup_no_account">Continue Without Account</string>
     <string name="login_login">Login</string>

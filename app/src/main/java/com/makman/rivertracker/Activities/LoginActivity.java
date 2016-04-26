@@ -8,9 +8,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -52,9 +54,13 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkTask
     @Bind(R.id.login_image_view)
     ImageView image;
 
-    LoginNetworkTask mTask;
+    @Bind(R.id.login_progress_bar)
+    ProgressBar mSpinner;
+
     SharedPreferences mPreference;
     SharedPreferences.Editor mEditor;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +88,7 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkTask
         String email = mEmail.getText().toString();
         String password = mPassword.getText().toString();
         String url = URL+ email + "&password=" + password;
+        mSpinner.setVisibility(View.VISIBLE);
         mButton.setEnabled(false);
         if(email.isEmpty()){
             Toast.makeText(this, R.string.login_enter_email, Toast.LENGTH_SHORT).show();
@@ -106,6 +113,8 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkTask
 
     @Override
     public void onLoginComplete(String token) {
+
+        mSpinner.setVisibility(View.GONE);
         if(token == null || token.isEmpty() ){
             Toast.makeText(this, "Login Failed", Toast.LENGTH_SHORT).show();
             mButton.setEnabled(true);
@@ -141,13 +150,17 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkTask
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        Toast.makeText(this,"Login Failed", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,R.string.login_failed, Toast.LENGTH_SHORT).show();
+        mSpinner.setVisibility(View.GONE);
+        mButton.setEnabled(true);
     }
 
     @Override
     public void onResponse(JSONObject response) {
         mPreference = getSharedPreferences(LoginActivity.PREFERENCES,Context.MODE_PRIVATE);
         mEditor = mPreference.edit();
+
+        mSpinner.setVisibility(View.GONE);
         mButton.setEnabled(true);
         try {
             if(response.has("token")){

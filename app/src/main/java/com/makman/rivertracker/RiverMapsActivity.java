@@ -117,13 +117,11 @@ public class RiverMapsActivity extends FragmentActivity implements OnMapReadyCal
                             new MarkerOptions().position(place).title(river.getName())
                                 .snippet(river.getSection())
                     );
-
                 }
-                LatLngBounds bounds = new LatLngBounds(new LatLng(minLat, minLong), new LatLng(maxLat, maxLong));
-                mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds,100 ));
-
-
             }
+            LatLngBounds bounds = new LatLngBounds(new LatLng(minLat, minLong), new LatLng(maxLat, maxLong));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds,100));
+
         }
     }
 

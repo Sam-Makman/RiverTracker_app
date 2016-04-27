@@ -5,4 +5,14 @@
     android:id="@+id/activity_favorite_frame_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    />
+    >
+
+    <ProgressBar
+        android:id="@+id/activity_favorite_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:indeterminate="true"
+        style="?android:attr/progressBarStyleLarge"/>
+</FrameLayout>

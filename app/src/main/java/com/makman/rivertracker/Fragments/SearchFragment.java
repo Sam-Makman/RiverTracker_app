@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -37,13 +39,29 @@ public class SearchFragment extends Fragment implements OnClickListener, MultiRi
 
     private static final String TAG = SearchFragment.class.getSimpleName();
     public static final String BACKGROUND_URL = "http://res.cloudinary.com/hgsa3o7eg/image/upload/v1460683974/12400671_863883430404267_1928887859281497838_n_wxenjo.png";
+
+    @Bind(R.id.search_spinner_difficulty)
     public Spinner mDifficultySpinner;
+
+    @Bind(R.id.search_button)
     public Button mButton;
+
+    @Bind(R.id.search_edit_river_name)
     public EditText mNameEdit;
+
+    @Bind(R.id.search_edit_river_section)
     public EditText mSectionEdit;
+
+    @Bind(R.id.search_spinner_state)
     public Spinner mStateSpinner;
+    @Bind(R.id.search_background_image)
     public ImageView mBackground;
+
+    @Bind(R.id.search_map_button)
     public Button mMapButton;
+
+    @Bind(R.id.search_progress_bar)
+    public ProgressBar mProgress;
     private boolean useMap;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,12 +76,7 @@ public class SearchFragment extends Fragment implements OnClickListener, MultiRi
 
         ButterKnife.bind(this, rootView);
         useMap = false;
-        mButton = (Button) rootView.findViewById(R.id.search_button);
         mButton.setOnClickListener(this);
-        mNameEdit = (EditText) rootView.findViewById(R.id.search_edit_river_name);
-        mSectionEdit = (EditText) rootView.findViewById(R.id.search_edit_river_section);
-        mBackground = (ImageView) rootView.findViewById(R.id.search_background_image);
-        mMapButton = (Button) rootView.findViewById(R.id.search_map_button);
         mMapButton.setOnClickListener(this);
 
         Picasso.with(getContext()).load(BACKGROUND_URL).fit().centerCrop().into(mBackground);
@@ -120,6 +133,7 @@ public class SearchFragment extends Fragment implements OnClickListener, MultiRi
         if(network == null || !network.isConnected()){
             Toast.makeText(getContext(), R.string.cannot_connect, Toast.LENGTH_SHORT).show();
         }else {
+            mProgress.setVisibility(View.VISIBLE);
             task = new MultiRiverNetworkTask(this);
             task.execute(url, getString(R.string.search_results));
         }
@@ -127,6 +141,7 @@ public class SearchFragment extends Fragment implements OnClickListener, MultiRi
 
     @Override
     public void PostExecute(ArrayList<River> rivers, boolean invalidToken, String title) {
+        mProgress.setVisibility(View.GONE);
         if(invalidToken){
             Intent intent = new Intent(getContext(), LoginActivity.class);
             startActivity(intent);

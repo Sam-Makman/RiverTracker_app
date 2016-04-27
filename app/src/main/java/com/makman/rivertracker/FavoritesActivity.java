@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.makman.rivertracker.Activities.LoginActivity;
@@ -19,6 +21,9 @@ import com.makman.rivertracker.Fragments.SearchFragment;
 import com.makman.rivertracker.NetworkTasks.MultiRiverNetworkTask;
 
 import java.util.ArrayList;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class FavoritesActivity extends AppCompatActivity implements MultiRiverNetworkTask.MultiRiverNetworkTaskListener{
 
@@ -32,13 +37,17 @@ public class FavoritesActivity extends AppCompatActivity implements MultiRiverNe
     SharedPreferences mPreferences;
     SharedPreferences.Editor mEditor;
 
+    @Bind(R.id.activity_favorite_progress_bar)
+    ProgressBar mProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorites);
+        ButterKnife.bind(this);
         supportInvalidateOptionsMenu();
 
+        mProgress.setVisibility(View.VISIBLE);
         mPreferences = getSharedPreferences(LoginActivity.PREFERENCES, Context.MODE_PRIVATE);
         mEditor = mPreferences.edit();
         String token = mPreferences.getString(LoginActivity.TOKEN, "");
@@ -54,15 +63,11 @@ public class FavoritesActivity extends AppCompatActivity implements MultiRiverNe
             Log.d(TAG, url);
         }
 
-        if(mRivers == null){
-
-
-        }
-
     }
 
     @Override
     public void PostExecute(ArrayList<River> rivers, boolean invalidToken, String title) {
+        mProgress.setVisibility(View.GONE);
         if(invalidToken){
             Toast.makeText(this, R.string.token_logout_error, Toast.LENGTH_SHORT).show();
             logout();
@@ -72,6 +77,7 @@ public class FavoritesActivity extends AppCompatActivity implements MultiRiverNe
             RiversFragment riversFragment = RiversFragment.newInstance(rivers, title);
             android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.activity_favorite_frame_layout, riversFragment);
+//            transaction.addToBackStack("favorites");
             transaction.commit();
         }
     }

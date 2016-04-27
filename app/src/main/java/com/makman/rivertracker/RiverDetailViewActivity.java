@@ -2,11 +2,14 @@ package com.makman.rivertracker;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -43,8 +46,20 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
     @Bind(R.id.river_details_image_view)
     ImageView mRiverImage;
 
+    @Bind(R.id.river_detail_description_button)
+    Button mDescription;
+
+    @Bind(R.id.river_detail_alert_button)
+    Button mAlert;
+
+    @Bind(R.id.river_detail_map_button)
+    Button mMap;
+
     @OnClick(R.id.river_detail_description_button)
     void onDescriptionClick(){
+        mDescription.setTextColor(getResources().getColor(R.color.colorPrimary));
+        mMap.setTextColor(Color.parseColor("#000000"));
+        mAlert.setTextColor(Color.parseColor("#000000"));
         RiverDescriptionFragment fragment = RiverDescriptionFragment.newInstance(river);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.river_detail_frame_layout, fragment);
@@ -53,6 +68,9 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
 
     @OnClick(R.id.river_detail_alert_button)
     void onAlertClick(){
+        mDescription.setTextColor(Color.parseColor("#000000"));
+        mMap.setTextColor(Color.parseColor("#000000"));
+        mAlert.setTextColor(getResources().getColor(R.color.colorPrimary));
         RiverAlertFragment fragment = new RiverAlertFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.river_detail_frame_layout, fragment);
@@ -61,6 +79,9 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
 
     @OnClick(R.id.river_detail_map_button)
     void onMapClick(){
+        mDescription.setTextColor(Color.parseColor("#000000"));
+        mMap.setTextColor(getResources().getColor(R.color.colorPrimary));
+        mAlert.setTextColor(Color.parseColor("#000000"));
         MapFragment mapFragment = new MapFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable(RiverDetailViewActivity.DETAILRIVER, river);
@@ -105,7 +126,7 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
 
     @Override
     public void onResponse(JSONObject response) {
-        Toast.makeText(this, "@string/river_favorited_toast", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.river_favorited_toast, Toast.LENGTH_SHORT).show();
     }
 
     @Override

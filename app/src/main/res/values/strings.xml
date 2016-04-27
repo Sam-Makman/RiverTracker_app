@@ -19,9 +19,8 @@
     <string name="search_rivers">Search Rivers</string>
     <string name="signup_edit_email">Enter Email</string>
     <string name="signup_edit_password">Enter Password</string>
-    <string name="signup_edit_repassword">re-enter password</string>
+    <string name="signup_edit_repassword">Re-Enter password</string>
     <string name="signup_text_signup">Sign Up</string>
-    <string name="signup_have_account">Have Account? Login</string>
     <string name="signup_no_account">Continue Without Account</string>
     <string name="login_login">Login</string>
     <string name="login_enter_email">Enter Email</string>
@@ -111,4 +110,8 @@
     <string name="river_title_description">Description</string>
     <string name="state">State</string>
     <string name="skip">Skip</string>
+    <string name="signup_failed">Signup Failed</string>
+    <string name="complete_all_fields">Complete all Fields</string>
+    <string name="mismatched_passwords">Mismatched passwords</string>
+    <string name="login_failed">Login Failed</string>
 </resources>

@@ -120,4 +120,13 @@
             />
     </LinearLayout>
 
+    <ProgressBar
+        android:id="@+id/search_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:indeterminate="true"
+        tools:background="#00FF00"
+        style="?android:attr/progressBarStyleLarge"/>
 </RelativeLayout>

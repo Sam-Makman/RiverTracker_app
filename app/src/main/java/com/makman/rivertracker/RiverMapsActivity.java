@@ -1,5 +1,6 @@
 package com.makman.rivertracker;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Camera;
 import android.net.Uri;
@@ -52,6 +53,9 @@ public class RiverMapsActivity extends FragmentActivity implements OnMapReadyCal
     @Bind(R.id.maps_river_detail_button)
     Button mDetailButton;
 
+    private LatLng mMin;;
+    private LatLng mMax;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +84,7 @@ public class RiverMapsActivity extends FragmentActivity implements OnMapReadyCal
         mMap = googleMap;
         mMap.setOnMarkerClickListener(this);
         mMap.setOnMapClickListener(this);
+
         boolean search = true;
         double minLat, minLong, maxLat, maxLong;
         if(mRivers != null && mRivers.size() > 0) {
@@ -119,8 +124,17 @@ public class RiverMapsActivity extends FragmentActivity implements OnMapReadyCal
                     );
                 }
             }
-            LatLngBounds bounds = new LatLngBounds(new LatLng(minLat, minLong), new LatLng(maxLat, maxLong));
-            mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds,100));
+            mMin = new LatLng(minLat, minLong);
+            mMax =  new LatLng(maxLat, maxLong);
+
+            mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+
+                @Override
+                public void onMapLoaded() {
+                    LatLngBounds bounds = new LatLngBounds(mMin,mMax);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds,100));
+                }
+            });
 
         }
     }

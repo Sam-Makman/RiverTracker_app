@@ -73,18 +73,13 @@ public class SignUpActivity extends AppCompatActivity implements Response.ErrorL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         ButterKnife.bind(this);
-        SharedPreferences pref = getSharedPreferences(LoginActivity.PREFERENCES, MODE_PRIVATE);
 
         ActionBar bar = getSupportActionBar();
-        bar.hide();
+        if (bar != null) {
+            bar.hide();
+        }
 
         Picasso.with(this).load(BACKGROUND_URL).fit().centerCrop().into(mBackground);
-
-        if(!pref.getString(LoginActivity.TOKEN, "").equals("")){
-            Intent intent = new Intent(this, FavoritesActivity.class);
-            startActivity(intent);
-            finish();
-        }
     }
 
     @OnClick(R.id.signup_button_signup) void signup(){
@@ -120,14 +115,16 @@ public class SignUpActivity extends AppCompatActivity implements Response.ErrorL
         }
     }
 
-    @OnClick(R.id.signup_button_have_account) void login(){
+    @OnClick(R.id.signup_button_have_account)
+    void login(){
         VolleyNetworkTask.getInstance().getRequestQueue().cancelAll(this);
         Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
     }
 
-    @OnClick(R.id.signup_button_no_account) void tryItOut(){
+    @OnClick(R.id.signup_button_no_account)
+    void tryItOut(){
         VolleyNetworkTask.getInstance().getRequestQueue().cancelAll(this);
         Intent intent = new Intent(SignUpActivity.this, FavoritesActivity.class);
         startActivity(intent);

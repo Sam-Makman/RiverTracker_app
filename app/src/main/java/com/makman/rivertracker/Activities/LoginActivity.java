@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,7 +19,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.makman.rivertracker.FavoritesActivity;
-import com.makman.rivertracker.NetworkTasks.LoginNetworkTask;
 import com.makman.rivertracker.NetworkTasks.VolleyNetworkTask;
 import com.makman.rivertracker.R;
 import com.squareup.picasso.Picasso;
@@ -32,7 +30,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LoginActivity extends AppCompatActivity implements LoginNetworkTask.LoginListener, Response.ErrorListener, Response.Listener<JSONObject> {
+public class LoginActivity extends AppCompatActivity implements  Response.ErrorListener, Response.Listener<JSONObject> {
     public static final String URL = "https://radiant-temple-90497.herokuapp.com/api/login?email=";
     public static final String TOKEN = "token";
     public static final String PREFERENCES = "TOKEN_PREFERENCES";
@@ -55,7 +53,7 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkTask
     ImageView image;
 
     @Bind(R.id.login_progress_bar)
-    ProgressBar mSpinner;
+    ProgressBar mProgressBar;
 
     SharedPreferences mPreference;
     SharedPreferences.Editor mEditor;
@@ -76,19 +74,20 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkTask
         }
 
         ButterKnife.bind(this);
-        mPreference = getSharedPreferences(LoginActivity.PREFERENCES,Context.MODE_PRIVATE);
-        mEditor = mPreference.edit();
         ActionBar bar = getSupportActionBar();
-        bar.hide();
+        if (bar != null) {
+            bar.hide();
+        }
         Picasso.with(this).load(LOGIN_IMAGE_URL).fit().centerCrop().into(image);
 
     }
 
-    @OnClick(R.id.login_button_login) void onClick(){
+    @OnClick(R.id.login_button_login)
+    void onClick(){
         String email = mEmail.getText().toString();
         String password = mPassword.getText().toString();
         String url = URL+ email + "&password=" + password;
-        mSpinner.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.VISIBLE);
         mButton.setEnabled(false);
         if(email.isEmpty()){
             Toast.makeText(this, R.string.login_enter_email, Toast.LENGTH_SHORT).show();
@@ -102,6 +101,7 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkTask
             VolleyNetworkTask.getInstance().getRequestQueue().add(jsonObjectRequest);
         }
     }
+
     @OnClick(R.id.login_button_signup)
     void signup(){
         VolleyNetworkTask.getInstance().getRequestQueue().cancelAll(this);
@@ -112,46 +112,14 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkTask
     }
 
     @Override
-    public void onLoginComplete(String token) {
-
-        mSpinner.setVisibility(View.GONE);
-        if(token == null || token.isEmpty() ){
-            Toast.makeText(this, "Login Failed", Toast.LENGTH_SHORT).show();
-            mButton.setEnabled(true);
-        }else {
-            Log.d(TAG, "Storing token");
-            mEditor.putString(TOKEN, token);
-            mEditor.apply();
-            Intent intent = new Intent(LoginActivity.this, FavoritesActivity.class);
-            startActivity(intent);
-            finish();
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:
-                Intent intent = new Intent(this, SignUpActivity.class);
-                startActivity(intent);
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, SignUpActivity.class);
-        startActivity(intent);
         finish();
     }
 
     @Override
     public void onErrorResponse(VolleyError error) {
         Toast.makeText(this,R.string.login_failed, Toast.LENGTH_SHORT).show();
-        mSpinner.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.GONE);
         mButton.setEnabled(true);
     }
 
@@ -160,7 +128,7 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkTask
         mPreference = getSharedPreferences(LoginActivity.PREFERENCES,Context.MODE_PRIVATE);
         mEditor = mPreference.edit();
 
-        mSpinner.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.GONE);
         mButton.setEnabled(true);
         try {
             if(response.has("token")){

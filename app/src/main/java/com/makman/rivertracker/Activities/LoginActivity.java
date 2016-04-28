@@ -59,6 +59,10 @@ public class LoginActivity extends AppCompatActivity implements  Response.ErrorL
     SharedPreferences.Editor mEditor;
 
 
+    /**
+     * If login token exists in shared preferences skips to favorites activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +86,10 @@ public class LoginActivity extends AppCompatActivity implements  Response.ErrorL
 
     }
 
+    /**
+     * validates user info then sends volley request
+     * to api
+     */
     @OnClick(R.id.login_button_login)
     void onClick(){
         String email = mEmail.getText().toString();
@@ -102,6 +110,10 @@ public class LoginActivity extends AppCompatActivity implements  Response.ErrorL
         }
     }
 
+    /**
+     * goes to signup activity
+     * cancels all volley tasks
+     */
     @OnClick(R.id.login_button_signup)
     void signup(){
         VolleyNetworkTask.getInstance().getRequestQueue().cancelAll(this);
@@ -111,11 +123,18 @@ public class LoginActivity extends AppCompatActivity implements  Response.ErrorL
         finish();
     }
 
-    @Override
-    public void onBackPressed() {
-        finish();
-    }
+    /**
+     * exits app
+     */
+//    @Override
+//    public void onBackPressed() {
+//        finish();
+//    }
 
+    /**
+     * allows user to try to login again if network error
+     * @param error volley network error
+     */
     @Override
     public void onErrorResponse(VolleyError error) {
         Toast.makeText(this,R.string.login_failed, Toast.LENGTH_SHORT).show();
@@ -123,6 +142,12 @@ public class LoginActivity extends AppCompatActivity implements  Response.ErrorL
         mButton.setEnabled(true);
     }
 
+    /**
+     * gets api token if sucessful login
+     * goes to favorites activity if sucess
+     * allows more login attemps if failure
+     * @param response json response from api
+     */
     @Override
     public void onResponse(JSONObject response) {
         mPreference = getSharedPreferences(LoginActivity.PREFERENCES,Context.MODE_PRIVATE);

@@ -171,6 +171,5 @@ public class LoginActivity extends AppCompatActivity implements  Response.ErrorL
             e.printStackTrace();
             Toast.makeText(this,R.string.login_failed, Toast.LENGTH_SHORT).show();
         }
-
     }
 }

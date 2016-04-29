@@ -17,6 +17,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -126,6 +127,15 @@ public class RiverMapsActivity extends FragmentActivity implements OnMapReadyCal
             }
             mMin = new LatLng(minLat, minLong);
             mMax =  new LatLng(maxLat, maxLong);
+
+            double tlat = (minLat+maxLat)/2;
+            double tlong = (minLong+maxLong)/2;
+
+            LatLng move = new LatLng(tlat, tlong);
+
+            CameraPosition m = new CameraPosition(move, 5,0,0);
+
+            mMap.moveCamera(CameraUpdateFactory.newCameraPosition(m));
 
             mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
 

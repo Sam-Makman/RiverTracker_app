@@ -1,0 +1,34 @@
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#F0F0F0"
+    tools:context="com.makman.rivertracker.Activities.RiversActivity">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/activity_rivers_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+    <TextView
+        android:id="@+id/activity_rivers_no_results"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/no_results"
+        android:textSize="50sp"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/activity_rivers_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:src="@android:drawable/ic_dialog_map"
+        android:layout_margin="16dp"
+        android:layout_gravity="bottom|end"
+        app:layout_behavior="com.makman.rivertracker.ScrollAwareFABBehavior"
+        />
+
+</android.support.design.widget.CoordinatorLayout>

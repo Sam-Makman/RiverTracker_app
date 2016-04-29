@@ -180,4 +180,18 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
             alertString += alert.getmDate() + "\n\n\n";
         }
     }
+
+    private boolean isFavorite(){
+
+        SharedPreferences prefrences = getSharedPreferences(LoginActivity.PREFERENCES,Context.MODE_PRIVATE);
+        String favs = prefrences.getString(FavoritesActivity.FAVORITES, "");
+        String[] favorites =  favs.split(",");
+        for(String f:favorites){
+            if(f.equals(river.getId())){
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

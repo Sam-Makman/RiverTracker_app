@@ -30,6 +30,7 @@ public class FavoritesActivity extends AppCompatActivity implements MultiRiverNe
     public static final String ARG_RIVERS = "ARG_RIVER";
     public static final String RIVER_URL = "https://radiant-temple-90497.herokuapp.com/api/rivers";
     public static final String FAVORITE_URL = "https://radiant-temple-90497.herokuapp.com/api/favorites?token=";
+    public static final String FAVORITES = "favorites";
     private static final String TAG = FavoritesActivity.class.getSimpleName();
 
     MultiRiverNetworkTask mTask;
@@ -73,6 +74,17 @@ public class FavoritesActivity extends AppCompatActivity implements MultiRiverNe
             Toast.makeText(this, R.string.cannot_connect, Toast.LENGTH_SHORT).show();
         }else {
             RiversFragment riversFragment = RiversFragment.newInstance(rivers, title);
+
+            SharedPreferences preferences = getSharedPreferences(LoginActivity.PREFERENCES,Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+
+            String riverID = "";
+            for(River r : rivers){
+                riverID += r.getId() +",";
+            }
+
+            editor.putString(FAVORITES, riverID);
+            Log.d(TAG, riverID);
             android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.activity_favorite_frame_layout, riversFragment);
             transaction.addToBackStack("favorites");

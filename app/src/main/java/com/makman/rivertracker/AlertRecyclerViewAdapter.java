@@ -6,16 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 /**
  * Created by sam on 4/21/16.
  */
 public class AlertRecyclerViewAdapter extends RecyclerView.Adapter<AlertRecyclerViewAdapter.AlertViewHolder>{
 
-    ArrayList<Alert> mAlerts;
+    Alert[] mAlerts;
 
-    public AlertRecyclerViewAdapter(ArrayList<Alert> mAlerts) {
+    public AlertRecyclerViewAdapter(Alert[] mAlerts) {
         this.mAlerts = mAlerts;
     }
 
@@ -28,7 +26,7 @@ public class AlertRecyclerViewAdapter extends RecyclerView.Adapter<AlertRecycler
 
     @Override
     public void onBindViewHolder(AlertRecyclerViewAdapter.AlertViewHolder holder, int position) {
-        Alert alert = mAlerts.get(position);
+        Alert alert = mAlerts[position];
         holder.title.setText(alert.getmTitle());
         holder.details.setText(alert.getmDescription());
         holder.timestamp.setText(alert.getmDate());
@@ -36,7 +34,7 @@ public class AlertRecyclerViewAdapter extends RecyclerView.Adapter<AlertRecycler
 
     @Override
     public int getItemCount() {
-        return mAlerts.size();
+        return mAlerts.length;
     }
 
     static class AlertViewHolder extends RecyclerView.ViewHolder {

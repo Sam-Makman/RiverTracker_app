@@ -3,12 +3,17 @@ package com.makman.rivertracker;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by prog on 4/14/16.
  */
 public class Alert implements Parcelable {
+    @SerializedName("title")
     private String mTitle;
+    @SerializedName("details")
     private String mDescription;
+    @SerializedName("updated_at")
     private String mDate;
 
     public Alert(String title, String description, String date){

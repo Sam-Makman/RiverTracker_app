@@ -18,7 +18,6 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.makman.rivertracker.Activities.LoginActivity;
 import com.makman.rivertracker.Fragments.MapFragment;
@@ -29,8 +28,6 @@ import com.makman.rivertracker.NetworkTasks.RiverDetailNetworkTask;
 import com.makman.rivertracker.NetworkTasks.VolleyNetworkTask;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import butterknife.Bind;
@@ -40,7 +37,6 @@ import butterknife.OnClick;
 public class RiverDetailViewActivity extends AppCompatActivity implements RiverDetailNetworkTask.RiverDetailNetworkTaskListener, Response.ErrorListener, Response.Listener<JSONObject> {
     private static final String TAG = RiverDetailViewActivity.class.getSimpleName();
     private static final String favoriteURL = "https://radiant-temple-90497.herokuapp.com/api/favorite?id=";
-    private static final String alertURL = "https://radiant-temple-90497.herokuapp.com/api/alert?id=";
     public static final String PREFERENCES = "TOKEN_PREFERENCES";
     public static final String DETAILRIVER = "detail_river";
     SharedPreferences mPreference;
@@ -78,6 +74,9 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
         mMap.setTextColor(Color.parseColor("#000000"));
         mAlert.setTextColor(Color.parseColor("#000000"));
         RiverDescriptionFragment fragment = RiverDescriptionFragment.newInstance(river);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(RiverDetailViewActivity.DETAILRIVER, river);
+        fragment.setArguments(bundle);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.river_detail_frame_layout, fragment);
         transaction.commit();
@@ -88,7 +87,7 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
         mDescription.setTextColor(Color.parseColor("#000000"));
         mMap.setTextColor(Color.parseColor("#000000"));
         mAlert.setTextColor(getResources().getColor(R.color.colorPrimary));
-        RiverAlertFragment fragment = RiverAlertFragment.newInstance(alerts);
+        RiverAlertFragment fragment = RiverAlertFragment.newInstance(river);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.river_detail_frame_layout, fragment);
         transaction.commit();
@@ -132,25 +131,7 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
         ButterKnife.bind(this);
         mPreference = getSharedPreferences(RiverDetailViewActivity.PREFERENCES, Context.MODE_PRIVATE);
         river = getIntent().getParcelableExtra(RiversFragment.ARG_RIVER);
-        String finalURL = alertURL + river.getId();
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(finalURL, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                for(int i=0; i<response.length(); i++){
-                    try {
-                        alerts[i]= (Alert) response.get(i);
-                        Log.d(TAG, response.toString());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, error.toString());
-            }
-        });
+
         mSection.setText(river.getSection());
         mName.setText(river.getName());
         ActionBar bar = getSupportActionBar();

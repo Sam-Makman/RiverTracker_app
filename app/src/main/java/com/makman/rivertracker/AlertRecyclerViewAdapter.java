@@ -1,21 +1,25 @@
 package com.makman.rivertracker;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import java.util.ArrayList;
 
 /**
  * Created by sam on 4/21/16.
  */
 public class AlertRecyclerViewAdapter extends RecyclerView.Adapter<AlertRecyclerViewAdapter.AlertViewHolder>{
 
-    ArrayList<Alert> mAlerts;
 
-    public AlertRecyclerViewAdapter(ArrayList<Alert> mAlerts) {
+
+    Alert[] mAlerts;
+
+    public AlertRecyclerViewAdapter() {
+    }
+
+    public AlertRecyclerViewAdapter(Alert[] mAlerts) {
         this.mAlerts = mAlerts;
     }
 
@@ -28,15 +32,18 @@ public class AlertRecyclerViewAdapter extends RecyclerView.Adapter<AlertRecycler
 
     @Override
     public void onBindViewHolder(AlertRecyclerViewAdapter.AlertViewHolder holder, int position) {
-        Alert alert = mAlerts.get(position);
+        Alert alert = mAlerts[position];
+        Log.d("ADAPTER", "setting title to " + alert.getmTitle() + " and description to " + alert.getmDescription());
         holder.title.setText(alert.getmTitle());
         holder.details.setText(alert.getmDescription());
-        holder.timestamp.setText(alert.getmDate());
+        String alertDate = alert.getmDate().substring(0,10);
+        holder.timestamp.setText(alertDate);
     }
 
     @Override
     public int getItemCount() {
-        return mAlerts.size();
+
+        return mAlerts == null ? 0 : mAlerts.length;
     }
 
     static class AlertViewHolder extends RecyclerView.ViewHolder {
@@ -49,6 +56,10 @@ public class AlertRecyclerViewAdapter extends RecyclerView.Adapter<AlertRecycler
             timestamp = (TextView) itemView.findViewById(R.id.row_alert_timestamp);
 
         }
+    }
+    public void setmAlerts(Alert[] mAlerts) {
+        this.mAlerts = mAlerts;
+        notifyDataSetChanged();
     }
 }
 

@@ -37,12 +37,11 @@ import butterknife.OnClick;
 public class RiverDetailViewActivity extends AppCompatActivity implements RiverDetailNetworkTask.RiverDetailNetworkTaskListener, Response.ErrorListener, Response.Listener<JSONObject> {
     private static final String TAG = RiverDetailViewActivity.class.getSimpleName();
     private static final String favoriteURL = "https://radiant-temple-90497.herokuapp.com/api/favorite?id=";
-    private static final String alertURL = "https://radiant-temple-90497.herokuapp.com/api/alert?id=";
     public static final String PREFERENCES = "TOKEN_PREFERENCES";
     public static final String DETAILRIVER = "detail_river";
     SharedPreferences mPreference;
-    Bundle mBundle;
     River river;
+    Alert[] alerts;
 
 
     @Bind(R.id.river_details_image_view)
@@ -75,6 +74,9 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
         mMap.setTextColor(Color.parseColor("#000000"));
         mAlert.setTextColor(Color.parseColor("#000000"));
         RiverDescriptionFragment fragment = RiverDescriptionFragment.newInstance(river);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(RiverDetailViewActivity.DETAILRIVER, river);
+        fragment.setArguments(bundle);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.river_detail_frame_layout, fragment);
         transaction.commit();
@@ -85,7 +87,7 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
         mDescription.setTextColor(Color.parseColor("#000000"));
         mMap.setTextColor(Color.parseColor("#000000"));
         mAlert.setTextColor(getResources().getColor(R.color.colorPrimary));
-        RiverAlertFragment fragment = new RiverAlertFragment();
+        RiverAlertFragment fragment = RiverAlertFragment.newInstance(river);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.river_detail_frame_layout, fragment);
         transaction.commit();
@@ -194,4 +196,5 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
 
         return false;
     }
+
 }

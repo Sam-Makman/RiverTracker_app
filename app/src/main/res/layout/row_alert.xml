@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_margin="10dp">
 
     <TextView
@@ -11,6 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="30sp"
+        android:textColor="@android:color/black"
         tools:text="HELP HELP"/>
 
     <TextView
@@ -19,6 +20,7 @@
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:layout_below="@id/row_alert_title"
+        android:textColor="@android:color/black"
         tools:text="These are details. Be aware of the log where ever it is you may die,
         These are details. Be aware of the log where ever it is you may die"
 
@@ -29,6 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         tools:text="12-6-16"
+        android:textColor="@android:color/black"
         android:textSize="18sp"
         android:layout_alignParentRight="true" />
 </RelativeLayout>

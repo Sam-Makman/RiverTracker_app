@@ -7,21 +7,62 @@
     tools:context="com.makman.rivertracker.RiverDetailViewActivity"
     android:id="@+id/river_detail_relative_layout">
 
-        <Button
-            android:id="@+id/river_details_favorite_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:textSize="20sp"
-            android:layout_alignParentRight="true"
-            android:text="@string/favorite_button"/>
+
+
 
         <ImageView
         android:id="@+id/river_details_image_view"
         android:layout_width="match_parent"
-        android:layout_height="225dp"
-        android:contentDescription="River Image" />
+        android:layout_height="275dp"
+        android:contentDescription="@string/river_image"
+            tools:background="#0000FF"/>
+    <Button
+        android:id="@+id/river_details_favorite_button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="20sp"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@id/river_details_image_view"
+        android:background="@drawable/ic_star_unfavorite"
+        style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
 
+        />
+    <Button
+        android:id="@+id/river_details_button_home"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:background="@drawable/ic_arrow_back_black_24dp"
+        style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+        />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingEnd="20dp"
+            android:paddingRight="20dp"
+            android:paddingStart="10dp"
+            android:paddingLeft="10dp"
+            android:layout_marginBottom="30dp"
+            android:layout_alignBottom="@id/river_details_image_view"
+            android:background="@drawable/detail_background">
+            <TextView
+                android:id="@+id/river_details_section"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Green Truss"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                />
+            <TextView
+            android:id="@+id/river_details_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="White Salmon"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            />
+        </LinearLayout>
         <LinearLayout
             android:id="@+id/river_detail_linear_layout"
             android:layout_width="match_parent"

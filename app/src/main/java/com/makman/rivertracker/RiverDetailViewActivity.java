@@ -3,13 +3,16 @@ package com.makman.rivertracker;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -57,6 +60,18 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
     @Bind(R.id.river_detail_map_button)
     Button mMap;
 
+    @Bind(R.id.river_details_button_home)
+    Button mHome;
+
+    @Bind(R.id.river_details_section)
+    TextView mSection;
+
+    @Bind(R.id.river_details_favorite_button)
+    Button mFavorite;
+
+    @Bind(R.id.river_details_name)
+    TextView mName;
+
     @OnClick(R.id.river_detail_description_button)
     void onDescriptionClick(){
         mDescription.setTextColor(getResources().getColor(R.color.colorPrimary));
@@ -98,8 +113,17 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
         String url = favoriteURL + river.getId() + "&token=" + mPreference.getString(LoginActivity.TOKEN, "");
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
         VolleyNetworkTask.getInstance().getRequestQueue().add(jsonObjectRequest);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mFavorite.setBackground(getDrawable(R.drawable.ic_star_favorite));
+        }else{
+            mFavorite.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_star_favorite));
+        }
     }
 
+    @OnClick(R.id.river_details_button_home)
+    void homeClick(){
+        finish();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +132,6 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
         ButterKnife.bind(this);
         mPreference = getSharedPreferences(RiverDetailViewActivity.PREFERENCES, Context.MODE_PRIVATE);
         river = getIntent().getParcelableExtra(RiversFragment.ARG_RIVER);
-
         String finalURL = alertURL + river.getId();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(finalURL, new Response.Listener<JSONArray>() {
             @Override
@@ -128,6 +151,14 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
                 Log.d(TAG, error.toString());
             }
         });
+        mSection.setText(river.getSection());
+        mName.setText(river.getName());
+        ActionBar bar = getSupportActionBar();
+        if(bar != null){
+            bar.setTitle(river.getName());
+            bar.hide();
+
+        }
         RiverDescriptionFragment fragment = RiverDescriptionFragment.newInstance(river);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.river_detail_frame_layout, fragment);

@@ -32,7 +32,6 @@ public class FavoritesActivity extends AppCompatActivity implements MultiRiverNe
     public static final String FAVORITE_URL = "https://radiant-temple-90497.herokuapp.com/api/favorites?token=";
     private static final String TAG = FavoritesActivity.class.getSimpleName();
 
-    ArrayList<River> mRivers;
     MultiRiverNetworkTask mTask;
     SharedPreferences mPreferences;
     SharedPreferences.Editor mEditor;
@@ -49,13 +48,12 @@ public class FavoritesActivity extends AppCompatActivity implements MultiRiverNe
 
         mProgress.setVisibility(View.VISIBLE);
         mPreferences = getSharedPreferences(LoginActivity.PREFERENCES, Context.MODE_PRIVATE);
-        mEditor = mPreferences.edit();
+
         String token = mPreferences.getString(LoginActivity.TOKEN, "");
         String url;
 
         Log.d(TAG, "token = " + token);
         if(token.equals("")){
-            url = RIVER_URL;
             getRivers(RIVER_URL, getString(R.string.all_rivers));
         }else{
             url = FAVORITE_URL + token;
@@ -77,7 +75,7 @@ public class FavoritesActivity extends AppCompatActivity implements MultiRiverNe
             RiversFragment riversFragment = RiversFragment.newInstance(rivers, title);
             android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.activity_favorite_frame_layout, riversFragment);
-//            transaction.addToBackStack("favorites");
+            transaction.addToBackStack("favorites");
             transaction.commit();
         }
     }
@@ -112,6 +110,7 @@ public class FavoritesActivity extends AppCompatActivity implements MultiRiverNe
     }
 
     private void logout(){
+        mEditor = mPreferences.edit();
         mEditor.putString(LoginActivity.TOKEN, "");
         mEditor.apply();
         Intent intent = new Intent(this, LoginActivity.class);

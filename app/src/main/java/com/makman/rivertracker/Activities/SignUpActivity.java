@@ -68,26 +68,30 @@ public class SignUpActivity extends AppCompatActivity implements Response.ErrorL
 
     SharedPreferences mPreference;
     SharedPreferences.Editor mEditor;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         ButterKnife.bind(this);
-        SharedPreferences pref = getSharedPreferences(LoginActivity.PREFERENCES, MODE_PRIVATE);
 
         ActionBar bar = getSupportActionBar();
-        bar.hide();
+        if (bar != null) {
+            bar.hide();
+        }
 
         Picasso.with(this).load(BACKGROUND_URL).fit().centerCrop().into(mBackground);
-
-        if(!pref.getString(LoginActivity.TOKEN, "").equals("")){
-            Intent intent = new Intent(this, FavoritesActivity.class);
-            startActivity(intent);
-            finish();
-        }
     }
 
-    @OnClick(R.id.signup_button_signup) void signup(){
+    /**
+     * validates user info then sends to api to
+     * create new user account
+     * TODO: do all the same validations as api
+     *
+     */
+    @OnClick(R.id.signup_button_signup)
+    void signup(){
         userInfo[0] = mName.getText().toString();
         userInfo[1] = mEmail.getText().toString();
         userInfo[2] = mPassword.getText().toString();
@@ -120,29 +124,48 @@ public class SignUpActivity extends AppCompatActivity implements Response.ErrorL
         }
     }
 
-    @OnClick(R.id.signup_button_have_account) void login(){
+    /**
+     * Goes to login activity
+     * Cancels Volley tasks
+     */
+    @OnClick(R.id.signup_button_have_account)
+    void login(){
         VolleyNetworkTask.getInstance().getRequestQueue().cancelAll(this);
         Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
     }
 
-    @OnClick(R.id.signup_button_no_account) void tryItOut(){
+
+    /**
+     * Goes to favorites activity, river list. Skips using an account
+     * Cancels Volley tasks
+     */
+    @OnClick(R.id.signup_button_no_account)
+    void tryItOut(){
         VolleyNetworkTask.getInstance().getRequestQueue().cancelAll(this);
         Intent intent = new Intent(SignUpActivity.this, FavoritesActivity.class);
         startActivity(intent);
         finish();
     }
 
-
+    /**
+     * Allows another attempt at signin
+     * failed due to network reasons or invalid user account
+     * @param error volley network error
+     */
     @Override
     public void onErrorResponse(VolleyError error) {
         error.printStackTrace();
-
         mProgress.setVisibility(View.GONE);
         Toast.makeText(this, R.string.signup_failed, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Sends user to favorites after sucessful signup
+     * User is now loged in.
+     * @param response api token
+     */
     @Override
     public void onResponse(JSONObject response) {
         mPreference = getSharedPreferences(LoginActivity.PREFERENCES, Context.MODE_PRIVATE);

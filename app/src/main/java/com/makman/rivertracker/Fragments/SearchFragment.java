@@ -54,6 +54,7 @@ public class SearchFragment extends Fragment implements OnClickListener, MultiRi
 
     @Bind(R.id.search_spinner_state)
     public Spinner mStateSpinner;
+
     @Bind(R.id.search_background_image)
     public ImageView mBackground;
 
@@ -62,7 +63,9 @@ public class SearchFragment extends Fragment implements OnClickListener, MultiRi
 
     @Bind(R.id.search_progress_bar)
     public ProgressBar mProgress;
+
     private boolean useMap;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,9 +86,6 @@ public class SearchFragment extends Fragment implements OnClickListener, MultiRi
 
         ((FavoritesActivity) getActivity()).setTitle("Search For Rivers");
 
-        mDifficultySpinner = (Spinner) rootView.findViewById(R.id.search_spinner_difficulty);
-
-
 
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.difficulty_ratings,
@@ -94,7 +94,6 @@ public class SearchFragment extends Fragment implements OnClickListener, MultiRi
         mDifficultySpinner.setAdapter(spinnerAdapter);
 
 
-        mStateSpinner = (Spinner) rootView.findViewById(R.id.search_spinner_state);
         ArrayAdapter<CharSequence> stateSpinAdapt = ArrayAdapter.createFromResource(getContext(),
                 R.array.states,
                 R.layout.spinner_item);
@@ -105,11 +104,7 @@ public class SearchFragment extends Fragment implements OnClickListener, MultiRi
     }
 
 
-    @OnClick(R.id.search_button)
-    void click(){
-
-    }
-
+    //Should this get moveed into two onclick events. only difference is first if statement
     @Override
     public void onClick(View v) {
         if(v.getId() == mMapButton.getId()){

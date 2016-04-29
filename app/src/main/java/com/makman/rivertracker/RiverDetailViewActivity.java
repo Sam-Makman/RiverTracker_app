@@ -36,7 +36,8 @@ import butterknife.OnClick;
 
 public class RiverDetailViewActivity extends AppCompatActivity implements RiverDetailNetworkTask.RiverDetailNetworkTaskListener, Response.ErrorListener, Response.Listener<JSONObject> {
     private static final String TAG = RiverDetailViewActivity.class.getSimpleName();
-    private static final String favoriteURL = "https://radiant-temple-90497.herokuapp.com/api/favorite?id=";
+    private static final String FAVORITE_URL = "https://radiant-temple-90497.herokuapp.com/api/favorite?id=";
+    private static final String UNFAVORITE_URL = "https://radiant-temple-90497.herokuapp.com/api/unfavorite?id=";
     public static final String PREFERENCES = "TOKEN_PREFERENCES";
     public static final String DETAILRIVER = "detail_river";
     SharedPreferences mPreference;
@@ -109,14 +110,30 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
 
     @OnClick(R.id.river_details_favorite_button)
     void onFavoriteClick(){
-        String url = favoriteURL + river.getId() + "&token=" + mPreference.getString(LoginActivity.TOKEN, "");
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
-        VolleyNetworkTask.getInstance().getRequestQueue().add(jsonObjectRequest);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mFavorite.setBackground(getDrawable(R.drawable.ic_star_favorite));
+        if(isFavorite()){
+            String url = UNFAVORITE_URL + river.getId() + "&token=" + mPreference.getString(LoginActivity.TOKEN, "");
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+            VolleyNetworkTask.getInstance().getRequestQueue().add(jsonObjectRequest);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                mFavorite.setBackground(getDrawable(R.drawable.ic_star_unfavorite));
+            }else{
+                mFavorite.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_star_unfavorite));
+            }
+            removeFavorite();
         }else{
-            mFavorite.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_star_favorite));
+            String url = FAVORITE_URL + river.getId() + "&token=" + mPreference.getString(LoginActivity.TOKEN, "");
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+            VolleyNetworkTask.getInstance().getRequestQueue().add(jsonObjectRequest);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                mFavorite.setBackground(getDrawable(R.drawable.ic_star_favorite));
+            }else{
+                mFavorite.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_star_favorite));
+            }
+            addFavorite();
         }
+
     }
 
     @OnClick(R.id.river_details_button_home)
@@ -138,8 +155,16 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
         if(bar != null){
             bar.setTitle(river.getName());
             bar.hide();
-
         }
+
+        if(isFavorite()){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                mFavorite.setBackground(getDrawable(R.drawable.ic_star_favorite));
+            }else{
+                mFavorite.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_star_favorite));
+            }
+        }
+
         RiverDescriptionFragment fragment = RiverDescriptionFragment.newInstance(river);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.river_detail_frame_layout, fragment);
@@ -160,7 +185,6 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
 
     @Override
     public void onResponse(JSONObject response) {
-        Toast.makeText(this, R.string.river_favorited_toast, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -182,6 +206,38 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
             alertString += alert.getmDate() + "\n\n\n";
         }
     }
+
+
+    void addFavorite(){
+        SharedPreferences prefrences = getSharedPreferences(LoginActivity.PREFERENCES,Context.MODE_PRIVATE);
+        String favs = prefrences.getString(FavoritesActivity.FAVORITES, "");
+        favs += river.getId() + ",";
+        SharedPreferences.Editor editor = prefrences.edit();
+        editor.putString(FavoritesActivity.FAVORITES, favs);
+        editor.commit();
+
+        Toast.makeText(this, R.string.river_favorited_toast, Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "add favorites " + favs);
+    }
+
+    void removeFavorite(){
+        SharedPreferences prefrences = getSharedPreferences(LoginActivity.PREFERENCES,Context.MODE_PRIVATE);
+        String favs = prefrences.getString(FavoritesActivity.FAVORITES, "");
+        String[] favorites =  favs.split(",");
+        favs = "";
+
+        for(String f:favorites){
+            if(!f.equals(river.getId())){
+                favs += river.getId() + ",";
+            }
+        }
+        SharedPreferences.Editor editor = prefrences.edit();
+        editor.putString(FavoritesActivity.FAVORITES, favs);
+        editor.commit();
+        Toast.makeText(this, R.string.favorite_removed, Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "Remove favorites " + favs);
+    }
+
 
     private boolean isFavorite(){
 

@@ -78,13 +78,17 @@ public class FavoritesActivity extends AppCompatActivity implements MultiRiverNe
             SharedPreferences preferences = getSharedPreferences(LoginActivity.PREFERENCES,Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
 
-            String riverID = "";
-            for(River r : rivers){
-                riverID += r.getId() +",";
+            String token = mPreferences.getString(LoginActivity.TOKEN, "");
+            if(title.equals(getString(R.string.favorites))) {
+                String riverID = "";
+                for (River r : rivers) {
+                    riverID += r.getId() + ",";
+                }
+                editor.putString(FAVORITES, riverID);
+                editor.commit();
+                Log.d(TAG, riverID);
             }
 
-            editor.putString(FAVORITES, riverID);
-            Log.d(TAG, riverID);
             android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.activity_favorite_frame_layout, riversFragment);
             transaction.addToBackStack("favorites");

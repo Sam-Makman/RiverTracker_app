@@ -115,4 +115,5 @@
     <string name="mismatched_passwords">Mismatched passwords</string>
     <string name="login_failed">Login Failed</string>
     <string name="river_image">River Image</string>
+    <string name="favorite_removed">Favorite Removed</string>
 </resources>

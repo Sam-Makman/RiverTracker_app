@@ -31,6 +31,13 @@ public class RiverDescriptionFragment extends Fragment{
     @Bind(R.id.river_detail_state)
     TextView mState;
 
+    @Bind(R.id.river_detail_max_cfs)
+            TextView mMaxCfs;
+
+    @Bind(R.id.river_detail_min_cfs)
+    TextView mMinCfs;
+
+
     River mRiver;
 
     @Nullable
@@ -40,10 +47,21 @@ public class RiverDescriptionFragment extends Fragment{
         ButterKnife.bind(this, view);
         mRiver=getArguments().getParcelable(RiverDetailViewActivity.DETAILRIVER);
         if(mRiver != null) {
-            mCfs.setText(Integer.toString(mRiver.getCfs()));
+            mCfs.setText(String.format(getContext().getString(R.string.cfs),mRiver.getCfs()));
             mState.setText(mRiver.getState());
             mDifficulty.setText(mRiver.getDifficulty());
             mDescription.setText(mRiver.getDetails().toString());
+            if(mRiver.getMax_cfs() == 0){
+                mMaxCfs.setVisibility(View.GONE);
+            }else{
+                mMaxCfs.setText(String.format(getContext().getString(R.string.max_cfs), new Integer(mRiver.getMax_cfs())));
+
+            }
+            if(mRiver.getMin_cfs() == 0){
+                mMinCfs.setVisibility(View.GONE);
+            }else {
+                mMinCfs.setText(String.format(getContext().getString(R.string.min_cfs), new Integer(mRiver.getMin_cfs())));
+            }
         }
         return view;
     }

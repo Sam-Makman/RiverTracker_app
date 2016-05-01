@@ -6,7 +6,7 @@
     <string name="river_detail_state_string">stateString</string>
     <string name="river_detail_flow_string">riverFlowString</string>
     <string name="river_detail_description_string">riverDescriptionString</string>
-    <string name="cfs">%s cfs</string>
+    <string name="cfs">%d cfs</string>
 
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -116,4 +116,6 @@
     <string name="login_failed">Login Failed</string>
     <string name="river_image">River Image</string>
     <string name="favorite_removed">Favorite Removed</string>
+    <string name="max_cfs">Max cfs: %d</string>
+    <string name="min_cfs">Min cfs: %d</string>
 </resources>

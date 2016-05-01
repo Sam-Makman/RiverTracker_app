@@ -23,11 +23,13 @@ public class River implements Parcelable {
     private String name;
     private String section;
     private String difficulty;
-    private String cfs;
+    private int cfs;
     private String details;
     private String state;
     private String put_in;
     private String take_out;
+    private int max_cfs;
+    private int min_cfs;
     /**
      * picture : {"url":null}
      */
@@ -41,6 +43,22 @@ public class River implements Parcelable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public int getMax_cfs(){
+        return max_cfs;
+    }
+
+    public void setMax_cfs(int max_cfs){
+        this.max_cfs = max_cfs;
+    }
+
+    public int getMin_cfs(){
+        return min_cfs;
+    }
+
+    public void setMin_cfs(int max_cfs){
+        this.min_cfs = max_cfs;
     }
 
     public String getName() {
@@ -67,11 +85,11 @@ public class River implements Parcelable {
         this.difficulty = difficulty;
     }
 
-    public String getCfs() {
+    public int getCfs() {
         return cfs;
     }
 
-    public void setCfs(String cfs) {
+    public void setCfs(int cfs) {
         this.cfs = cfs;
     }
 
@@ -220,11 +238,13 @@ public class River implements Parcelable {
         dest.writeString(this.name);
         dest.writeString(this.section);
         dest.writeString(this.difficulty);
-        dest.writeString(this.cfs);
+        dest.writeInt(this.cfs);
         dest.writeString(this.details);
         dest.writeString(this.state);
         dest.writeString(this.put_in);
         dest.writeString(this.take_out);
+        dest.writeInt(this.min_cfs);
+        dest.writeInt(this.max_cfs);
         dest.writeParcelable(this.picture, flags);
         dest.writeByte(has_alert ? (byte) 1 : (byte) 0);
     }
@@ -237,11 +257,13 @@ public class River implements Parcelable {
         this.name = in.readString();
         this.section = in.readString();
         this.difficulty = in.readString();
-        this.cfs = in.readString();
+        this.cfs = in.readInt();
         this.details = in.readString();
         this.state = in.readString();
         this.put_in = in.readString();
         this.take_out = in.readString();
+        this.min_cfs = in.readInt();
+        this.max_cfs = in.readInt();
         this.picture = in.readParcelable(PictureBean.class.getClassLoader());
         this.has_alert = in.readByte() != 0;
     }

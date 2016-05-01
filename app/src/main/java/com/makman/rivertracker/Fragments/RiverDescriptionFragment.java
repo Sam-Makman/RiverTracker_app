@@ -39,10 +39,12 @@ public class RiverDescriptionFragment extends Fragment{
         View view = inflater.inflate(R.layout.fragment_river_description, container, false);
         ButterKnife.bind(this, view);
         mRiver=getArguments().getParcelable(RiverDetailViewActivity.DETAILRIVER);
-        mCfs.setText(mRiver.getCfs());
-        mState.setText(mRiver.getState());
-        mDifficulty.setText(mRiver.getDifficulty());
-        mDescription.setText(mRiver.getDetails().toString());
+        if(mRiver != null) {
+            mCfs.setText(Integer.toString(mRiver.getCfs()));
+            mState.setText(mRiver.getState());
+            mDifficulty.setText(mRiver.getDifficulty());
+            mDescription.setText(mRiver.getDetails().toString());
+        }
         return view;
     }
 

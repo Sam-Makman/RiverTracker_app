@@ -167,11 +167,7 @@ public class RiverMapsActivity extends FragmentActivity implements OnMapReadyCal
         mDifficulty.setText(river.getDifficulty());
         mState.setText(river.getState());
         String cfs;
-        if(river.getCfs() == null){
-            cfs = "";
-        }else {
-            cfs = String.format(getString(R.string.cfs), river.getCfs());
-        }
+        cfs = String.format(getString(R.string.cfs), river.getCfs());
         mCfs.setText(cfs);
 
         return true;

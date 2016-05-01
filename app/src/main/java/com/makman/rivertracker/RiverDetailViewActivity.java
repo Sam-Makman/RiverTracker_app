@@ -24,6 +24,7 @@ import com.makman.rivertracker.Fragments.MapFragment;
 import com.makman.rivertracker.Fragments.RiverAlertFragment;
 import com.makman.rivertracker.Fragments.RiverDescriptionFragment;
 import com.makman.rivertracker.Fragments.RiversFragment;
+import com.makman.rivertracker.Fragments.WeatherFragment;
 import com.makman.rivertracker.NetworkTasks.RiverDetailNetworkTask;
 import com.makman.rivertracker.NetworkTasks.VolleyNetworkTask;
 import com.squareup.picasso.Picasso;
@@ -57,6 +58,9 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
     @Bind(R.id.river_detail_map_button)
     Button mMap;
 
+    @Bind(R.id.river_detail_weather_button)
+    Button mWeather;
+
     @Bind(R.id.river_details_button_home)
     Button mHome;
 
@@ -74,6 +78,7 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
         mDescription.setTextColor(getResources().getColor(R.color.colorPrimary));
         mMap.setTextColor(Color.parseColor("#000000"));
         mAlert.setTextColor(Color.parseColor("#000000"));
+        mWeather.setTextColor(Color.parseColor("#000000"));
         RiverDescriptionFragment fragment = RiverDescriptionFragment.newInstance(river);
         Bundle bundle = new Bundle();
         bundle.putParcelable(RiverDetailViewActivity.DETAILRIVER, river);
@@ -87,6 +92,7 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
     void onAlertClick(){
         mDescription.setTextColor(Color.parseColor("#000000"));
         mMap.setTextColor(Color.parseColor("#000000"));
+        mWeather.setTextColor(Color.parseColor("#000000"));
         mAlert.setTextColor(getResources().getColor(R.color.colorPrimary));
         RiverAlertFragment fragment = RiverAlertFragment.newInstance(river);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -99,12 +105,25 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
         mDescription.setTextColor(Color.parseColor("#000000"));
         mMap.setTextColor(getResources().getColor(R.color.colorPrimary));
         mAlert.setTextColor(Color.parseColor("#000000"));
+        mWeather.setTextColor(Color.parseColor("#000000"));
         MapFragment mapFragment = new MapFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable(RiverDetailViewActivity.DETAILRIVER, river);
         mapFragment.setArguments(bundle);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.river_detail_frame_layout, mapFragment);
+        transaction.commit();
+    }
+
+    @OnClick(R.id.river_detail_weather_button)
+    void onWeatherClick(){
+        mDescription.setTextColor(Color.parseColor("#000000"));
+        mWeather.setTextColor(getResources().getColor(R.color.colorPrimary));
+        mAlert.setTextColor(Color.parseColor("#000000"));
+        mMap.setTextColor(Color.parseColor("#000000"));
+        WeatherFragment weather = WeatherFragment.newInstance(river);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.river_detail_frame_layout, weather);
         transaction.commit();
     }
 

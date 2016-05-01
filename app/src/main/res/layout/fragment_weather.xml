@@ -1,0 +1,36 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.makman.rivertracker.Fragments.WeatherFragment">
+
+    <ImageView
+        android:id="@+id/fragment_weather_image"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        tools:background="#000FFF"/>
+    <TextView
+        android:id="@+id/fragment_weather_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fragment_weather_image"
+        android:textSize="24sp"
+        android:textAlignment="center"
+        tools:text="Current Temp: 75" />
+    <TextView
+        android:id="@+id/fragment_weather_conditions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fragment_weather_temp"
+        android:textSize="24sp"
+        android:textAlignment="center"
+        tools:text="Current Conditions: Sunny"/>
+    <TextView
+        android:id="@+id/fragment_weather_wind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fragment_weather_conditions"
+        android:textSize="24sp"
+        android:textAlignment="center"
+        tools:text="Wind: 4 MPH"/>
+</RelativeLayout>

@@ -118,4 +118,8 @@
     <string name="favorite_removed">Favorite Removed</string>
     <string name="max_cfs">Max cfs: %d</string>
     <string name="min_cfs">Min cfs: %d</string>
+    <string name="weather">Weather</string>
+    <string name="weather_conditions">Conditions: %s</string>
+    <string name="weather_temp">Temperature: %s F</string>
+    <string name="weather_wind">Wind: %s MPH</string>
 </resources>

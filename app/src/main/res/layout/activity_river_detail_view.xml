@@ -31,7 +31,8 @@
     <Button
         android:id="@+id/river_details_button_home"
         android:layout_width="50dp"
-        android:layout_height="40dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/ic_arrow_back_black_24dp"
         style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
         />
@@ -93,6 +94,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/river_detail_map_button"
+                android:textColor="#000000"
+                style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_weight="1"/>
+            <Button
+                android:id="@+id/river_detail_weather_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/weather"
                 android:textColor="#000000"
                 style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_weight="1"/>

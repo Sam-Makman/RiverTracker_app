@@ -24,6 +24,7 @@ import com.makman.rivertracker.Fragments.MapFragment;
 import com.makman.rivertracker.Fragments.RiverAlertFragment;
 import com.makman.rivertracker.Fragments.RiverDescriptionFragment;
 import com.makman.rivertracker.Fragments.RiversFragment;
+import com.makman.rivertracker.Fragments.WeatherFragment;
 import com.makman.rivertracker.NetworkTasks.RiverDetailNetworkTask;
 import com.makman.rivertracker.NetworkTasks.VolleyNetworkTask;
 import com.squareup.picasso.Picasso;
@@ -36,7 +37,8 @@ import butterknife.OnClick;
 
 public class RiverDetailViewActivity extends AppCompatActivity implements RiverDetailNetworkTask.RiverDetailNetworkTaskListener, Response.ErrorListener, Response.Listener<JSONObject> {
     private static final String TAG = RiverDetailViewActivity.class.getSimpleName();
-    private static final String favoriteURL = "https://radiant-temple-90497.herokuapp.com/api/favorite?id=";
+    private static final String FAVORITE_URL = "https://radiant-temple-90497.herokuapp.com/api/favorite?id=";
+    private static final String UNFAVORITE_URL = "https://radiant-temple-90497.herokuapp.com/api/unfavorite?id=";
     public static final String PREFERENCES = "TOKEN_PREFERENCES";
     public static final String DETAILRIVER = "detail_river";
     SharedPreferences mPreference;
@@ -56,6 +58,9 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
     @Bind(R.id.river_detail_map_button)
     Button mMap;
 
+    @Bind(R.id.river_detail_weather_button)
+    Button mWeather;
+
     @Bind(R.id.river_details_button_home)
     Button mHome;
 
@@ -73,6 +78,7 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
         mDescription.setTextColor(getResources().getColor(R.color.colorPrimary));
         mMap.setTextColor(Color.parseColor("#000000"));
         mAlert.setTextColor(Color.parseColor("#000000"));
+        mWeather.setTextColor(Color.parseColor("#000000"));
         RiverDescriptionFragment fragment = RiverDescriptionFragment.newInstance(river);
         Bundle bundle = new Bundle();
         bundle.putParcelable(RiverDetailViewActivity.DETAILRIVER, river);
@@ -86,6 +92,7 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
     void onAlertClick(){
         mDescription.setTextColor(Color.parseColor("#000000"));
         mMap.setTextColor(Color.parseColor("#000000"));
+        mWeather.setTextColor(Color.parseColor("#000000"));
         mAlert.setTextColor(getResources().getColor(R.color.colorPrimary));
         RiverAlertFragment fragment = RiverAlertFragment.newInstance(river);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -98,6 +105,7 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
         mDescription.setTextColor(Color.parseColor("#000000"));
         mMap.setTextColor(getResources().getColor(R.color.colorPrimary));
         mAlert.setTextColor(Color.parseColor("#000000"));
+        mWeather.setTextColor(Color.parseColor("#000000"));
         MapFragment mapFragment = new MapFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable(RiverDetailViewActivity.DETAILRIVER, river);
@@ -107,16 +115,44 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
         transaction.commit();
     }
 
+    @OnClick(R.id.river_detail_weather_button)
+    void onWeatherClick(){
+        mDescription.setTextColor(Color.parseColor("#000000"));
+        mWeather.setTextColor(getResources().getColor(R.color.colorPrimary));
+        mAlert.setTextColor(Color.parseColor("#000000"));
+        mMap.setTextColor(Color.parseColor("#000000"));
+        WeatherFragment weather = WeatherFragment.newInstance(river);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.river_detail_frame_layout, weather);
+        transaction.commit();
+    }
+
     @OnClick(R.id.river_details_favorite_button)
     void onFavoriteClick(){
-        String url = favoriteURL + river.getId() + "&token=" + mPreference.getString(LoginActivity.TOKEN, "");
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
-        VolleyNetworkTask.getInstance().getRequestQueue().add(jsonObjectRequest);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mFavorite.setBackground(getDrawable(R.drawable.ic_star_favorite));
+        if(isFavorite()){
+            String url = UNFAVORITE_URL + river.getId() + "&token=" + mPreference.getString(LoginActivity.TOKEN, "");
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+            VolleyNetworkTask.getInstance().getRequestQueue().add(jsonObjectRequest);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                mFavorite.setBackground(getDrawable(R.drawable.ic_star_unfavorite));
+            }else{
+                mFavorite.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_star_unfavorite));
+            }
+            removeFavorite();
         }else{
-            mFavorite.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_star_favorite));
+            String url = FAVORITE_URL + river.getId() + "&token=" + mPreference.getString(LoginActivity.TOKEN, "");
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+            VolleyNetworkTask.getInstance().getRequestQueue().add(jsonObjectRequest);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                mFavorite.setBackground(getDrawable(R.drawable.ic_star_favorite));
+            }else{
+                mFavorite.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_star_favorite));
+            }
+            addFavorite();
         }
+
     }
 
     @OnClick(R.id.river_details_button_home)
@@ -138,8 +174,16 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
         if(bar != null){
             bar.setTitle(river.getName());
             bar.hide();
-
         }
+
+        if(isFavorite()){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                mFavorite.setBackground(getDrawable(R.drawable.ic_star_favorite));
+            }else{
+                mFavorite.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_star_favorite));
+            }
+        }
+
         RiverDescriptionFragment fragment = RiverDescriptionFragment.newInstance(river);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.river_detail_frame_layout, fragment);
@@ -160,7 +204,6 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
 
     @Override
     public void onResponse(JSONObject response) {
-        Toast.makeText(this, R.string.river_favorited_toast, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -172,6 +215,61 @@ public class RiverDetailViewActivity extends AppCompatActivity implements RiverD
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void setAlerts(Alert[] alerts) {
+        String alertString = "";
+        for (Alert alert : alerts) {
+            alertString += alert.getmTitle() + "\n\n";
+            alertString += alert.getmDescription() + "\n";
+            alertString += alert.getmDate() + "\n\n\n";
+        }
+    }
+
+
+    void addFavorite(){
+        SharedPreferences prefrences = getSharedPreferences(LoginActivity.PREFERENCES,Context.MODE_PRIVATE);
+        String favs = prefrences.getString(FavoritesActivity.FAVORITES, "");
+        favs += river.getId() + ",";
+        SharedPreferences.Editor editor = prefrences.edit();
+        editor.putString(FavoritesActivity.FAVORITES, favs);
+        editor.commit();
+
+        Toast.makeText(this, R.string.river_favorited_toast, Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "add favorites " + favs);
+    }
+
+    void removeFavorite(){
+        SharedPreferences prefrences = getSharedPreferences(LoginActivity.PREFERENCES,Context.MODE_PRIVATE);
+        String favs = prefrences.getString(FavoritesActivity.FAVORITES, "");
+        String[] favorites =  favs.split(",");
+        favs = "";
+
+        for(String f:favorites){
+            if(!f.equals(river.getId())){
+                favs += river.getId() + ",";
+            }
+        }
+        SharedPreferences.Editor editor = prefrences.edit();
+        editor.putString(FavoritesActivity.FAVORITES, favs);
+        editor.commit();
+        Toast.makeText(this, R.string.favorite_removed, Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "Remove favorites " + favs);
+    }
+
+
+    private boolean isFavorite(){
+
+        SharedPreferences prefrences = getSharedPreferences(LoginActivity.PREFERENCES,Context.MODE_PRIVATE);
+        String favs = prefrences.getString(FavoritesActivity.FAVORITES, "");
+        String[] favorites =  favs.split(",");
+        for(String f:favorites){
+            if(f.equals(river.getId())){
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

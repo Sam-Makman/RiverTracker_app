@@ -1,13 +1,17 @@
 package com.makman.rivertracker;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -39,32 +43,43 @@ public class RiverRecyclerViewAdapter extends RecyclerView.Adapter<RiverRecycler
 
     @Override
     public void onBindViewHolder(final RiverViewHolder holder, int position) {
-        River river  = mRivers.get(position);
+        River river = mRivers.get(position);
         holder.name.setText(river.getName());
         holder.difficulty.setText(river.getDifficulty());
         holder.state.setText(river.getState());
         holder.section.setText(river.getSection());
         String url = river.getPicture().getPicture().getUrl();
-        if(!river.isHas_alert()){
+        if (!river.isHas_alert()) {
             holder.alertUpper.setVisibility(View.GONE);
             holder.alertLower.setVisibility(View.GONE);
 
         }
-        if(url != null) {
+        if (url != null) {
             holder.alertLower.setVisibility(View.GONE);
             Picasso.with(holder.name.getContext()).load(url).fit().centerCrop().into(holder.image);
-        }else{
+        } else {
             holder.image.setVisibility(View.GONE);
             holder.alertUpper.setVisibility(View.GONE);
 
         }
-        String cfs;
-        if(river.getCfs() == null){
-            cfs = "";
-        }else {
-             cfs = String.format(holder.name.getContext().getString(R.string.cfs), river.getCfs());
 
+        if(river.getId().equals("1")){
+            Log.d("temp", "white Salmon");
         }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (river.getCfs() == 0 || (river.getMax_cfs() == 0 && river.getMin_cfs() == 0)) {
+                holder.fullView.setBackground(holder.fullView.getContext().getDrawable(R.drawable.river_background_no_data));
+            } else if ((river.getCfs() > river.getMin_cfs() || river.getMin_cfs() == 0) && (river.getCfs() < river.getMax_cfs()|| river.getMax_cfs()==0)) {
+                holder.fullView.setBackground(holder.fullView.getContext().getDrawable(R.drawable.river_background_in));
+            } else {
+                holder.fullView.setBackground(holder.fullView.getContext().getDrawable(R.drawable.river_background_out));
+        }
+    }
+
+        String cfs;
+
+         cfs = String.format(holder.name.getContext().getString(R.string.cfs), river.getCfs());
+
         holder.cfs.setText(cfs);
         holder.fullView.setOnClickListener(new View.OnClickListener(){
 

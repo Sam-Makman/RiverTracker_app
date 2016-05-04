@@ -38,7 +38,6 @@ public class SignUpActivity extends AppCompatActivity implements Response.ErrorL
 
     private final String[] userInfo = new String[4];
 
-
     @Bind(R.id.signup_edit_text_email)
     EditText mEmail;
 

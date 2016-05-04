@@ -44,6 +44,8 @@ public class RiversFragment extends Fragment implements RiverRecyclerViewAdapter
     RiverDetailNetworkTask mDetailTask;
     TextView mNoResults;
     FloatingActionButton fab;
+    private String mTitle;
+    boolean resumeFlag = false;
 
     public static RiversFragment newInstance(ArrayList<River> rivers, String title) {
 
@@ -61,11 +63,7 @@ public class RiversFragment extends Fragment implements RiverRecyclerViewAdapter
         return fragment;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -90,16 +88,25 @@ public class RiversFragment extends Fragment implements RiverRecyclerViewAdapter
             }else{
                 mRecyclerView.setVisibility(View.GONE);
             }
-            String title = getArguments().getString(ARG_TITLE, "");
+            mTitle = getArguments().getString(ARG_TITLE, "");
 
-            if(!title.equals("")){
-                ((FavoritesActivity) getActivity()).setTitle(title);
+            if(!mTitle.equals("")){
+                ((FavoritesActivity) getActivity()).setTitle(mTitle);
             }
         }
-
-
-
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(mTitle.equals(getString(R.string.favorites)) && resumeFlag==true){
+            Intent intent = new Intent(getContext(), FavoritesActivity.class);
+            startActivity(intent);
+            getActivity().finish();
+        }else{
+            resumeFlag = true;
+        }
     }
 
     @Override

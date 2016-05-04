@@ -72,5 +72,7 @@ public class RiverAlertFragment extends Fragment implements Response.ErrorListen
         mAlerts = new Gson().fromJson(response.toString(), Alert[].class);
         Log.d(TAG, response.toString());
         mAdapter.setmAlerts(mAlerts);
+
+
     }
 }
